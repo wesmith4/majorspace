@@ -65,7 +65,7 @@ const getDeptFaculty = async (baseUrl, deptPath) => {
 
     return $('.person-teaser').map(function() {
       return getDeptFacultyInfoFromListItem(baseUrl, this);
-    }).get();
+    }).toArray();
   } catch (err) {
     if (!isAxiosError(err)) { throw err; }
 
