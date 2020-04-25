@@ -16,7 +16,7 @@ function isAxiosError(error) {
   return error && error.isAxiosError;
 }
 
-let ROOT = 'https://www.davidson.edu';
+let baseUrl = 'https://www.davidson.edu';
 
 const DEPARTMENTS_PATH = '/academic-departments';
 
@@ -30,7 +30,7 @@ const loadData = (baseUrl, path) => {
 
 const getDepartmentPaths = async () => {
   console.log('Function getDepartmentPaths has started');
-  const $ = await loadData(ROOT, DEPARTMENTS_PATH);
+  const $ = await loadData(baseUrl, DEPARTMENTS_PATH);
 
   return Array.from($('a', '.three-column').map((i, listItem) => {
     return {name: listItem.children[0].data, path: listItem.attribs.href};
@@ -83,7 +83,7 @@ let run = async () => {
   console.log(departments);
 
   return Promise.all(departments.map(async(dept) => {
-    dept.faculty = await getDeptFaculty(ROOT, dept.path);
+    dept.faculty = await getDeptFaculty(baseUrl, dept.path);
     return dept;
   }));
 }
