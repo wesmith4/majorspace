@@ -12,13 +12,16 @@ A site for Davidson College students to interact with members of their departmen
   - [Email](mailto:likorir@davidson.edu)
   - [GitHub](https://github.com/LilianKorir)
 
-## Development
 
-### Install required modules
-Run ```$ npm install``` in the root project directory to install required modules on your computer.
+## Getting Started
+1. ### Install required modules
+  - Run ```$ npm install``` in the root project directory to install required modules on your computer.
 
-### Run the development server
-```$ npm run dev``` will start the development server with [nodemon](https://www.npmjs.com/package/nodemon), which will restart itself automatically when you save a file in the project directory.  You just need to refresh the page to see the modified output.
+2. ### Create the local database
+  - Run ```$ npm run db:create``` in the root project directory to create the local PostreSQL database on your computer.
+
+3. ### Run the development server
+  - ```$ npm run dev``` will start the development server with [nodemon](https://www.npmjs.com/package/nodemon), which will restart itself automatically when you save a file in the project directory.  You just need to refresh the page to see the modified output.
 
 ## Web Scraping
 The ```web-scraping``` folder contains the files we need for scraping our data from the [Davidson.edu](https://davidson.edu) website. Run these on your terminal to see the outputs:
