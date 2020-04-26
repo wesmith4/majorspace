@@ -33,7 +33,7 @@ const getDepartmentPaths = async () => {
   const $ = await loadData(baseUrl, DEPARTMENTS_PATH);
 
   return Array.from($('a', '.three-column').map((i, listItem) => {
-    return {name: listItem.children[0].data, path: listItem.attribs.href};
+    return {name: listItem.children[0].data, path: listItem.attribs.href, departmentUrl: baseUrl + listItem.attribs.href};
   }));
 }
 
