@@ -3,14 +3,14 @@ A site for Davidson College students to interact with members of their departmen
 
 ### Collaborators
 - Will Smith
-  -[Email](mailto:wismith@davidson.edu)
-  -[GitHub](https://github.com/wismith)
+  - [Email](mailto:wismith@davidson.edu)
+  - [GitHub](https://github.com/wismith)
 - Kendahl Ryan Ross
-  -[Email](mailto:keross@davidson.edu)
-  -[GitHub](https://github.com/kross00)
+  - [Email](mailto:keross@davidson.edu)
+  - [GitHub](https://github.com/kross00)
 - Lilian Korir
-  -[Email](mailto:likorir@davidson.edu)
-  -[GitHub](https://github.com/LilianKorir)
+  - [Email](mailto:likorir@davidson.edu)
+  - [GitHub](https://github.com/LilianKorir)
 
 ## Development
 
@@ -19,8 +19,10 @@ A site for Davidson College students to interact with members of their departmen
 
 ## Web Scraping
 The ```web-scraping``` folder contains the files we need for scraping our data from the [Davidson.edu](https://davidson.edu) website. Run these on your terminal to see the outputs:
+
     $ cd web-scraping
     $ node departmentScraper.js
+
 *Note: Each time the ```departmentScraper.js``` script is run, the JSON file in this folder is rewritten.*
 
 
