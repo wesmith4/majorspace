@@ -20,6 +20,7 @@ class Faculty extends Model {
 
   static get relationMappings() {
     let Department = require('./Department');
+    let Review = require('./Review');
     return {
       departments: {
         relation: Model.ManyToManyRelation,
@@ -31,6 +32,14 @@ class Faculty extends Model {
             to: 'faculty_to_departments.department_id'
           },
           to: 'departments.id'
+        }
+      },
+      reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: Review,
+        join: {
+          from: 'faculty.id',
+          to: 'reviews.faculty_id'
         }
       }
     }
