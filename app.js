@@ -11,6 +11,20 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+app.root = (...args) => path.join(__dirname, ...args);
+
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = app.get('env');
+}
+
+// Database setup
+let Knex = require('knex');
+let dbConfig = require(app.root('knexfile'));
+let knex = Knex(dbConfig[process.env.NODE_ENV]);
+
+let { Model } = require('objection');
+Model.knex(knex);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
