@@ -17,7 +17,6 @@ function isAxiosError(error) {
 }
 
 let baseUrl = 'https://www.davidson.edu';
-
 const DEPARTMENTS_PATH = '/academic-departments';
 
 const loadData = (baseUrl, path) => {
@@ -36,6 +35,7 @@ const getDepartmentPaths = async () => {
     return {name: listItem.children[0].data, path: listItem.attribs.href};
   }));
 }
+
 
 function getDeptFacultyInfoFromListItem(baseUrl, listItem) {
   const $ = cheerio;
@@ -56,11 +56,13 @@ function getDeptFacultyInfoFromListItem(baseUrl, listItem) {
     phone: (contactInfo[1] ? contactInfo[1].data : contactInfo[0].data),
     office: facultyNode.find('div .person-teaser__contact').find('div').text().trim(),
     imageUrl: baseUrl  + facultyNode.find('img').attr('src'),
+    profileUrl: baseUrl + facultyNode.find('.person-teaser__name a').attr('href')
   };
 }
 
 const getDeptFaculty = async (baseUrl, deptPath) => {
   try {
+
     const $ = await loadData(baseUrl, deptPath + '/faculty-staff');
 
     return $('.person-teaser').map(function() {
@@ -78,15 +80,53 @@ const getDeptFaculty = async (baseUrl, deptPath) => {
   }
 }
 
+function getLinkInfoFromListItem(baseUrl, listItem) {
+  const $ = cheerio;
+  let itemNode = $(listItem);
+
+  return {
+    label: itemNode.find('a').text(),
+    url: baseUrl + itemNode.find('a').attr('href'),
+  }
+}
+
+async function getDeptLinkInfo(baseUrl, deptPath) {
+  try {
+    const $ = await loadData(baseUrl, deptPath);
+    return $('.menu--expanded > li').map(function() {
+      return getLinkInfoFromListItem(baseUrl, this);
+    }).toArray();
+  } catch (err) {
+    if (!isAxiosError(err)) { throw err; }
+    switch(err.response.status) {
+      case HttpStatus.NOT_FOUND:
+        return null;
+      default:
+        throw err;
+    }
+  }
+}
+
 let run = async () => {
   let departments = await getDepartmentPaths();
   console.log(departments);
 
   return Promise.all(departments.map(async(dept) => {
     dept.faculty = await getDeptFaculty(baseUrl, dept.path);
+    dept.info = await getDeptLinkInfo(baseUrl, dept.path);
     return dept;
   }));
 }
+
+/* let runInfo = async () => {
+  let econPath = '/academic-departments/economics';
+  let econInfo = await getDeptLinkInfo(baseUrl, econPath);
+  console.log(econInfo);
+}
+
+runInfo(); */
+
+
 
 run()
   .then(departments => {
@@ -95,3 +135,7 @@ run()
   .catch(err => {
     console.log(err.stack);
   });
+
+module.exports = {
+  baseUrl, DEPARTMENTS_PATH, getDepartmentPaths
+}
