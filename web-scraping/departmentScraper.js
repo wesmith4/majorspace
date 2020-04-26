@@ -17,9 +17,12 @@ function isAxiosError(error) {
   return error && error.isAxiosError;
 }
 
+// Define urls used for this scrape
 let baseUrl = 'https://www.davidson.edu';
 const DEPARTMENTS_PATH = '/academic-departments';
 
+
+// Utility function to get webpage data and load into cheerio
 const loadData = (baseUrl, path) => {
   let url = baseUrl + path;
 
@@ -28,6 +31,8 @@ const loadData = (baseUrl, path) => {
   return axios.get(url).then(result => cheerio.load(result.data));
 }
 
+
+// Scrape Academic Department names and url's from https://davidson.edu/academic-departments
 const getDepartmentPaths = async () => {
   console.log('Function getDepartmentPaths has started');
   const $ = await loadData(baseUrl, DEPARTMENTS_PATH);
@@ -37,7 +42,7 @@ const getDepartmentPaths = async () => {
   }));
 }
 
-
+// For a specific faculty member, scrape their information from the department faculty/staff page
 function getDeptFacultyInfoFromListItem(baseUrl, listItem) {
   const $ = cheerio;
   let facultyNode  = $(listItem);
@@ -61,6 +66,7 @@ function getDeptFacultyInfoFromListItem(baseUrl, listItem) {
   };
 }
 
+// Map the above function to all faculty members listed for the given department
 const getDeptFaculty = async (baseUrl, deptPath) => {
   try {
 
@@ -81,6 +87,7 @@ const getDeptFaculty = async (baseUrl, deptPath) => {
   }
 }
 
+// For a specific link listed on the sidebar of the department page, return object with its label and url
 function getLinkInfoFromListItem(baseUrl, listItem) {
   const $ = cheerio;
   let itemNode = $(listItem);
@@ -91,6 +98,7 @@ function getLinkInfoFromListItem(baseUrl, listItem) {
   }
 }
 
+// Map the above function to all links listed on the department sidebar (top-level only)
 async function getDeptLinkInfo(baseUrl, deptPath) {
   try {
     const $ = await loadData(baseUrl, deptPath);
@@ -108,6 +116,7 @@ async function getDeptLinkInfo(baseUrl, deptPath) {
   }
 }
 
+// Run script with all of the functions above, returning all departments with their data
 let run = async () => {
   let departments = await getDepartmentPaths();
   console.log(departments);
@@ -119,26 +128,13 @@ let run = async () => {
   }));
 }
 
-/* let runInfo = async () => {
-  let econPath = '/academic-departments/economics';
-  let econInfo = await getDeptLinkInfo(baseUrl, econPath);
-  console.log(econInfo);
-}
-
-runInfo(); */
-
-
-
 run()
   .then(departments => {
-    let data = JSON.stringify(departments);
+    // Log resulting array to the console
     console.log(departments);
-    fs.writeFileSync('davidsonDepartments.json', data);
+    // Write the data into a JSON file using fs.writeFileSync and JSON.stringify
+    fs.writeFileSync('davidsonDepartments.json', JSON.stringify(departments));
   })
   .catch(err => {
     console.log(err.stack);
   });
-
-module.exports = {
-  baseUrl, DEPARTMENTS_PATH, getDepartmentPaths
-}

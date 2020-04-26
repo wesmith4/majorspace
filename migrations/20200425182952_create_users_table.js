@@ -7,7 +7,6 @@ exports.up = function(knex) {
     table.text('first_name').notNullable();
     table.text('last_name').notNullable();
     table.integer('class_year').notNullable();
-    table.text('major');
     table.boolean('available_as_mentor').notNullable().defaultTo(0);
   })
 };

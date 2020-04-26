@@ -26,6 +26,10 @@ class Department extends Model {
 
   static get relationMappings() {
     let Faculty = require('./Faculty');
+    let Link = require('./Link');
+    let Course = require('./Course');
+    let Review = require('./Review');
+    let User = require('./User');
     return {
       faculty: {
         relation: Model.ManyToManyRelation,
@@ -37,6 +41,42 @@ class Department extends Model {
             to: 'faculty_to_departments.faculty_id'
           },
           to: 'faculty.id'
+        }
+      },
+      links: {
+        relation: Model.HasManyRelation,
+        modelClass: Link,
+        join: {
+          from: 'departments.id',
+          to: 'department_links.department_id'
+        }
+      },
+      courses: {
+        relation: Model.HasManyRelation,
+        modelClass: Course,
+        join: {
+          from: 'departments.id',
+          to: 'courses.department_id'
+        }
+      },
+      reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: Review,
+        join: {
+          from: 'departments.id',
+          to: 'reviews.department_id'
+        }
+      },
+      users: {
+        relation: Model.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: 'departments.id',
+          through: {
+            from: 'users_to_departments.department_id',
+            to: 'users_to_departments.user_id'
+          },
+          to: 'users.id'
         }
       }
     }
