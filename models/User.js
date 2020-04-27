@@ -26,7 +26,7 @@ class User extends Password(Model) {
         password: {type: 'string'},
         firstName: {type: 'string'},
         lastName: {type: 'string'},
-        classYear: {type: 'integer'},
+        classYear: {type: 'string'},
         availableAsMentor: {type: 'boolean'}
       }
     }
