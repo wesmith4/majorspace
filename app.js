@@ -10,6 +10,8 @@ let cookieSession = require('cookie-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+let loadUser = require('./loadUser');
+
 var app = express();
 
 app.root = (...args) => path.join(__dirname, ...args);
@@ -22,6 +24,8 @@ if (!process.env.NODE_ENV) {
 let Knex = require('knex');
 let dbConfig = require(app.root('knexfile'));
 let knex = Knex(dbConfig[process.env.NODE_ENV]);
+
+
 
 let { Model } = require('objection');
 Model.knex(knex);
@@ -62,6 +66,7 @@ app.use(getUser);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.use(loadUser);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
