@@ -11,17 +11,34 @@ let Faculty = require('./models/Faculty');
 
 let data = JSON.parse(fs.readFileSync('./web-scraping/davidsonDepartments.json', 'utf-8'));
 console.log(data);
-async function importDavidsonData(data) {
+async function importDavidsonDepartments(data) {
   return await Department.query().insertGraph(data.map(dept => {
     return {
       name: dept.name,
       departmentUrl: dept.departmentUrl,
-      faculty: dept.faculty,
       links: dept.links
     }
-  }));
+  }), {relate: true});
+}
+
+async function importDavidsonFaculty(data) {
+  for (let department of data) {
+    if (department.faculty) {
+      let dbDepartment = await Department.query().findOne({name: department.name});
+      for (let member of department.faculty) {
+        let dbMember;
+        try {
+          dbMember = await Faculty.query().insert(member);
+        } catch {
+          dbMember = await Faculty.query().findOne({name: member.name});
+        }
+        await dbMember.$relatedQuery('departments').relate(dbDepartment);
+      }
+    }
+  }
 }
 
 (async () => {
-  await(importDavidsonData(data));
+  await(importDavidsonDepartments(data));
+  await(importDavidsonFaculty(data));
 })();

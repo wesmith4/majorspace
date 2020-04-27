@@ -10,6 +10,7 @@ exports.up = function(knex) {
     table.text('office');
     table.text('image_url');
     table.text('profile_url');
+    table.unique('name');
   })
 };
 
