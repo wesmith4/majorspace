@@ -1,0 +1,78 @@
+<div class="container">
+  <form action="/newReview" method="POST" id="new-review-form">
+    <h2 class="display-2">New Course Review</h2>
+    {{!-- Form group for the class info --}}
+    <div class="form-group">
+      <h3>Course Information</h3>
+      <div class="form-group">
+        <label for="course-department-input">Department</label>
+        <input class="form-control" name="department" id="course-department-input" list="depts">
+        <datalist id="depts">
+          {{#each departments}}
+            <option value="{{name}}"></option>
+          {{/each}}
+        </datalist>
+      </div>
+      <div class="form-group">
+        <label for="course-number-input">Course Number</label>
+        <input class="form-control" type="text" name="courseNumber" id="course-number-input">
+        <small>Ex. "ECO101"</small>
+      </div>
+      <div class="form-group">
+        <label for="course-title-input">Course Title</label>
+        <input class="form-control" type="text" name="courseTitle" id="course-title-input">
+        <small>Ex. "Introductory Economics"</small>
+      </div>
+      <div class="form-group">
+        <label for="faculty">Professor / Faculty Member</label>
+        <input class="form-control" name="faculty" id="faculty" list="profs">
+        <datalist id="profs">
+          {{#each faculty}}
+          <option value="{{name}}"></option>
+          {{/each}}
+        </datalist>
+     </div>
+    </div>
+    <hr class="my-4"></hr>
+
+
+    {{!-- Form group for the actual review content --}}
+    <div class="form-group">
+      <div class="form-group">
+        <label for="course-description-input">Course Description</label>
+        <textarea class="form-control" name="description" id="course-description-input" cols="30" rows="10"></textarea>
+        <small>Your objective description of the course (structure, assignments, lectures, etc.)</small>
+      </div>
+      <div class="form-group">
+        <label for="course-review-input">Review</label>
+        <textarea class="form-control" name="review" id="course-review-input" cols="30" rows="10"></textarea>
+        <small>Your subjective review of the course</small>
+      </div>
+      <div class="form-group">
+        <script>
+          function show_value(x){
+        document.getElementById("slider_value").innerHTML=x;}</script>
+
+        <label for="course-rating-input">Rating</label>
+        <span id="slider_value" style="color:red;"></span>
+       <input class="form-control" type="range" list="tickmarks" min="0" max="10" step="1" name="rating" id="course-rating-input" onchange="show_value(this.value);">
+        <datalist id="tickmarks">
+          <option value="0" label="0"></option>
+          <option value="1"></option>
+          <option value="2"></option>
+          <option value="3"></option>
+          <option value="4"></option>
+          <option value="5" label="5"></option>
+          <option value="6"></option>
+          <option value="7"></option>
+          <option value="8"></option>
+          <option value="9"></option>
+          <option value="10" label="10"></option>
+      </datalist>
+        <small>Your 1-10 rating of the course</small>
+      </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary btn-large" value="Submit">
+  </form>
+</div>

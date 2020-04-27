@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 let User = require('../models/User');
+let Department = require('../models/Department');
+let Faculty = require('../models/Faculty');
+let Course = require('../models/Course');
+let Review = require('../models/Review');
 
 /* GET home page. */
 /* router.get('/', function(req, res, next) {
@@ -73,6 +77,55 @@ router.post('/sign-in', async (request, response) => {
 router.post('/sign-out', (request, response) => {
   request.session.userId = null;
   response.redirect('/');
+});
+
+// Route to render the new review form
+router.get('/newReview', async(request, response) => {
+  let departments = await Department.query();
+  let faculty = await Faculty.query();
+
+  response.render('newReview', {user: request.user, departments, faculty});
+});
+
+// Route to post a new review
+router.post('/newReview', async(request, response) => {
+  let {department, courseNumber, courseTitle,
+    faculty, description, review, rating} = req.body;
+  let dbDepartment = await Department.query().findOne({name: department});
+  let dbFaculty = await Faculty.query().findOne({name: faculty});
+  let dbCourse;
+  try {
+    dbCourse = await Course.query().findOne({courseNumber: courseNumber});
+  } catch {
+    dbCourse = await Course.query().insert({
+      departmentId: dbDepartment.id,
+      courseNumber: courseNumber
+    })
+  }
+  let newReview = await Review.query().insert({
+    userId: request.user.id,
+    courseId: dbCourse.id,
+    departmentId: dbDepartment.id,
+    facultyId: dbFaculty.id,
+    description: description,
+    review: review,
+    rating: rating
+  });
+
+  response.redirect('/');
+});
+
+// Route to show all reviews
+router.get('/reviews', async(request, response) => {
+  let user = request.user;
+  let reviews = await Review.query();
+  for (let each of reviews) {
+    each.professor = each.$relatedQuery('faculty');
+    each.department = each.$relatedQuery('departments');
+    each.author = each.$relatedQuery('users');
+  }
+
+  response.render('allReviews', {user, reviews});
 });
 
 
