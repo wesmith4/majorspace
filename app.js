@@ -1,10 +1,11 @@
-
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 let handlebars = require('express-handlebars');
+let cookieSession = require('cookie-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -39,6 +40,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Cookie session
+if (process.env.SECRET) {
+  app.set('session-secret', process.env.SECRET);
+} else {
+  app.set('session-secret', 'f3quq4930fdsi');
+}
+
+let sessionHandler = cookieSession({
+  name: 'session',
+  secret: app.get('session-secret')
+});
+app.use(sessionHandler);
+
+
+let getUser = require('./getUser');
+app.use(getUser);
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
