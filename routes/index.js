@@ -9,21 +9,21 @@ let User = require('../models/User');
 
 router.get('/', (request, response) => {
   if (request.user) {
-    response.render('construction', { user: request.user });
+    response.render('construction', { title: 'Major Space',user: request.user });
   } else {
     response.redirect('/sign-in');
   }
-  });
+});
 
-  router.get('/sign-up', (request, response) => {
+router.get('/sign-up', (request, response) => {
   if (request.user) {
     response.redirect('/');
   } else {
     response.render('sign-up');
   }
-  });
+});
 
-  router.post('/sign-up', async (request, response) => {
+router.post('/sign-up', async (request, response) => {
   let firstName = request.body.firstName;
   let lastName = request.body.lastName;
   let classYear = request.body.classYear;
@@ -44,17 +44,17 @@ router.get('/', (request, response) => {
   } else {
     response.render('sign-up');
   }
-  });
+});
 
-  router.get('/sign-in', (request, response) => {
+router.get('/sign-in', (request, response) => {
   if (request.user) {
     response.redirect('/');
   } else {
     response.render('sign-in');
   }
-  });
+});
 
-  router.post('/sign-in', async (request, response) => {
+router.post('/sign-in', async (request, response) => {
   let email = request.body.email;
   let password = request.body.password;
 
@@ -68,13 +68,12 @@ router.get('/', (request, response) => {
   } else {
     response.render('sign-in', { invalidLogin: true });
   }
-  });
+});
 
-  router.post('/sign-out', (request, response) => {
+router.post('/sign-out', (request, response) => {
   request.session.userId = null;
-
   response.redirect('/');
-  });
+});
 
 
 module.exports = router;
