@@ -81,16 +81,17 @@ router.post('/sign-out', (request, response) => {
 
 // Route to render the new review form
 router.get('/newReview', async(request, response) => {
-  let departments = await Department.query();
-  let faculty = await Faculty.query();
+  let departments = await Department.query().orderBy('name');
+  let faculty = await Faculty.query().orderBy('name');
+  let courses = await Course.query().orderBy('course_number');
 
-  response.render('newReview', {user: request.user, departments, faculty});
+  response.render('newReview', {user: request.user, departments, faculty, courses});
 });
 
 // Route to post a new review
 router.post('/newReview', async(request, response) => {
   let {department, courseNumber, courseTitle,
-    faculty, description, review, rating} = req.body;
+    faculty, description, review, rating} = request.body;
   let dbDepartment = await Department.query().findOne({name: department});
   let dbFaculty = await Faculty.query().findOne({name: faculty});
   let dbCourse;
@@ -105,6 +106,7 @@ router.post('/newReview', async(request, response) => {
   let newReview = await Review.query().insert({
     userId: request.user.id,
     courseId: dbCourse.id,
+    courseTitle: courseTitle,
     departmentId: dbDepartment.id,
     facultyId: dbFaculty.id,
     description: description,
@@ -112,6 +114,11 @@ router.post('/newReview', async(request, response) => {
     rating: rating
   });
 
+  if (newReview) {
+    console.log(`New Review posted for ${courseNumber}: ${courseTitle} by ${request.user.firstName}}`);
+    console.log('------------------------------------------');
+    console.log('Form Data: ', request.body);
+  }
   response.redirect('/');
 });
 

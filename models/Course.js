@@ -15,13 +15,11 @@ class Course extends Model {
       required: [
         'departmentId',
         'courseNumber',
-        'courseTitle'
       ],
       properties: {
         id: {type: 'integer'},
         departmentId: {type: 'integer'},
         courseNumber: {type: 'string'},
-        courseTitle: {type: 'string'}
       }
     }
   }
