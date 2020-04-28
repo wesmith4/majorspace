@@ -13,9 +13,9 @@ let Review = require('../models/Review');
 
 router.get('/', (request, response) => {
   if (request.user) {
-    response.render('construction', { title: 'Major Space',user: request.user });
+    response.render('welcome', { title: 'Major Space', user: request.user });
   } else {
-    response.redirect('/sign-in');
+    response.render('welcome', {title: 'Major Space'});
   }
 });
 

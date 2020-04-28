@@ -9,6 +9,7 @@ let cookieSession = require('cookie-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+let pagesRouter = require('./routes/pages');
 
 let loadUser = require('./loadUser');
 
@@ -64,6 +65,7 @@ app.use(getUser);
 
 
 app.use('/', indexRouter);
+app.use('/page', pagesRouter);
 app.use('/users', usersRouter);
 
 app.use(loadUser);
