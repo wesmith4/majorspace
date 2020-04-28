@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.increments('id').primary();
     table.integer('faculty_id').notNullable().references('faculty.id');
     table.integer('department_id').notNullable().references('departments.id');
+    table.unique(['faculty_id', 'department_id']);
   })
 };
 

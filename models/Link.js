@@ -13,7 +13,6 @@ class Link extends Model {
     return {
       type: 'object',
       required: [
-        'department_id',
         'label',
         'url'
       ],

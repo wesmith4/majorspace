@@ -1,5 +1,5 @@
 const { Model, snakeCaseMappers } = require('objection');
-const Password = require('objection-password');
+const Password = require('objection-password')();
 
 class User extends Password(Model) {
   static get columnNameMappers() {
@@ -26,7 +26,7 @@ class User extends Password(Model) {
         password: {type: 'string'},
         firstName: {type: 'string'},
         lastName: {type: 'string'},
-        classYear: {type: 'integer'},
+        classYear: {type: 'string'},
         availableAsMentor: {type: 'boolean'}
       }
     }
