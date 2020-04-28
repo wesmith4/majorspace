@@ -36,6 +36,7 @@ router.get('/', (request, response) => {
     classYear: classYear,
     email: email,
     password: password,
+
   });
 
   if (user) {
