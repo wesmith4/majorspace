@@ -65,7 +65,7 @@ app.use(getUser);
 
 
 app.use('/', indexRouter);
-app.use('/space', spacesRouter);
+app.use('/spaces', spacesRouter);
 app.use('/user', userRouter);
 
 app.use(loadUser);

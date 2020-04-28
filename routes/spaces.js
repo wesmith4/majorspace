@@ -9,6 +9,7 @@ let Message = require('../models/Message');
 
 // Display all information for a department homepage
 router.get('/:departmentName', async(request, response) => {
+  let departments = await Department.query();
   let {departmentName} = request.params;
   console.log(request.params);
   let department = await Department.query().findOne({name: departmentName});
@@ -21,9 +22,11 @@ router.get('/:departmentName', async(request, response) => {
   });
 
   let faculty = await department.$relatedQuery('faculty').orderBy('name');
+  let links = await department.$relatedQuery('links');
   let reviews = await department.$relatedQuery('reviews').orderBy('created_at', 'desc');
   for (let each of reviews) {
     each.course = await each.$relatedQuery('course');
+    each.faculty = await each.$relatedQuery('faculty');
   }
 
 
@@ -33,7 +36,7 @@ router.get('/:departmentName', async(request, response) => {
   console.log('Courses: ', courses);
   console.log('Messages: ', messages);
   console.log('Reviews: ', reviews);
-  response.render('majorspace', {department, messages, faculty, reviews, courses, requests, title: department.name, user: request.user});
+  response.render('majorspace', {department, messages, faculty, links, reviews, courses, requests, title: department.name, user: request.user, departments});
 });
 
 
@@ -51,7 +54,7 @@ router.post('/:departmentName/messages', async(request, response) => {
   });
 
   console.log(`New message ${subject} posted by ${user.firstName}`);
-  response.redirect(`/space/${department.name}`)
+  response.redirect(`/spaces/${department.name}`)
 });
 
 router.post('/:departmentName/messages/:messageId/reply', async(request, response) => {
@@ -69,7 +72,7 @@ router.post('/:departmentName/messages/:messageId/reply', async(request, respons
     messageBody: messageBody
   });
 
-  response.redirect(`/space/${department.name}`);
+  response.redirect(`/spaces/${department.name}`);
 });
 
 module.exports = router;

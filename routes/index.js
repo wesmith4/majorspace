@@ -5,7 +5,7 @@ let Department = require('../models/Department');
 let Faculty = require('../models/Faculty');
 let Course = require('../models/Course');
 let Review = require('../models/Review');
-
+let Message = require('../models/Message');
 /* GET home page. */
 /* router.get('/', function(req, res, next) {
   res.render('construction', { title: 'Major Space' });
@@ -87,6 +87,5 @@ router.get('/reviews', async(request, response) => {
 
   response.render('allReviews', {user, reviews});
 });
-
 
 module.exports = router;

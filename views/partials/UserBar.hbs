@@ -9,19 +9,28 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      {{!-- <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
+      </li> --}}
       {{#if user}}
+        {{#if department}}
+          <li class="nav-item dropdown">
+            <select placeholder="{{department.name}}" class="selectpicker" title="{{department.name}}" data-live-search="true" id="" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+              {{#each departments}}
+                <option value="/spaces/{{name}}">{{name}}</option>
+              {{/each}}
+            </select>
+          </li>
+        {{/if}}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{user.firstName}}
           <i class="fas fa-user"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <form action="/sign-out" method="post">
+          <form action="/user/sign-out" method="post">
             <a class="dropdown-item btn" onclick="this.parentNode.submit()">Sign Out</a>
           </form>
         </div>
@@ -35,10 +44,5 @@
       </li>
       {{/if}}
     </ul>
-
-    <form class="form-inline my-2 my-lg-0" action="/recipes/search" method="GET">
-      <input class="form-control mr-sm-2" type="search" name="term" placeholder="Search" {{#if searchTerm}}value="{{searchTerm}}"{{/if}}>
-      <button class="btn btn-outline-success btn-outline-beige my-2 my-sm-0" type="submit">Search</button>
-    </form>
   </div>
 </nav>
