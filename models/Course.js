@@ -27,6 +27,7 @@ class Course extends Model {
   static get relationMappings() {
     let Department = require('./Department');
     let Request = require('./Request');
+    let Review = require('./Review');
     return {
       department: {
         relation: Model.HasOneRelation,

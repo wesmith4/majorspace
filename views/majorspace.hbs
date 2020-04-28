@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-8">
+      {{#each reviews}}
+        <div class="container">
+          <h3>{{course.courseNumber}}: {{courseTitle}}</h3>
+          <h5>{{rating}}</h5>
+          <p>{{description}}</p>
+          <p>{{review}}</p>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+
+</div>

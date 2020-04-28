@@ -37,6 +37,7 @@ class User extends Password(Model) {
     let Course = require('./Course');
     let Department = require('./Department');
     let Message = require('./Message');
+    let MessageLike = require('./MessageLike');
     return {
       reviews: {
         relation: Model.HasManyRelation,
