@@ -36,6 +36,7 @@ class User extends Password(Model) {
     let Review = require('./Review');
     let Course = require('./Course');
     let Department = require('./Department');
+    let Message = require('./Message');
     return {
       reviews: {
         relation: Model.HasManyRelation,
@@ -67,6 +68,22 @@ class User extends Password(Model) {
             to: 'users_to_courses.course_id',
           },
           to: 'courses.id'
+        }
+      },
+      messages: {
+        relation: Model.HasManyRelation,
+        modelClass: Message,
+        join: {
+          from: 'users.id',
+          to: 'messages.user_id'
+        }
+      },
+      message_likes: {
+        relation: Model.HasManyRelation,
+        modelClass: MessageLike,
+        join: {
+          from: 'users.id',
+          to: 'message_likes.user_id'
         }
       }
     }
