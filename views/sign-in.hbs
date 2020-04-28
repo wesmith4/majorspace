@@ -1,5 +1,5 @@
 <div class="container">
-  <form class="form-signin" action="/sign-in" method="POST">
+  <form class="form-signin" action="/user/sign-in" method="POST">
     <h2 class="form-signin-heading">Please sign in</h2>
 
     {{#if invalidLogin}}
@@ -10,11 +10,11 @@
 
     <div class="form-group">
 
-      <input type="text" name="email" class="form-control" placeholder="Email address">
+      <input type="email" name="email" class="form-control" placeholder="Email address" required>
     </div>
 
     <div class="form-group">
-      <input type="password" name="password" class="form-control" placeholder="Password">
+      <input type="password" name="password" class="form-control" placeholder="Password" required>
     </div>
 
     <button class="btn btn-large btn-primary" type="submit">Sign in</button>

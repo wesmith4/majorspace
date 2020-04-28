@@ -1,0 +1,18 @@
+:root {
+  --davidson-red: #ac1a2f;
+  --davidson-black: #000000;
+  --theme-grey: rgb(179, 179, 179);
+}
+
+body {
+  background-color: var(--theme-grey) !important;
+  color: var(--davidson-black) !important;
+}
+
+.white-background {
+  background-color: white !important;
+}
+
+#userbar {
+  background-color: var(--davidson-red) !important;
+}
