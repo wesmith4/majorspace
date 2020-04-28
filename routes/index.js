@@ -19,68 +19,14 @@ router.get('/', (request, response) => {
   }
 });
 
-router.get('/sign-up', (request, response) => {
-  if (request.user) {
-    response.redirect('/');
-  } else {
-    response.render('sign-up');
-  }
-});
 
-router.post('/sign-up', async (request, response) => {
-  let firstName = request.body.firstName;
-  let lastName = request.body.lastName;
-  let classYear = request.body.classYear;
-  let email = request.body.email;
-  let password = request.body.password;
-
-  let user = await User.query().insert({
-    firstName: firstName,
-    lastName: lastName,
-    classYear: classYear,
-    email: email,
-    password: password,
-  });
-
-  if (user) {
-    request.session.userId = user.id;
-    response.redirect('/');
-  } else {
-    response.render('sign-up');
-  }
-});
-
-router.get('/sign-in', (request, response) => {
-  if (request.user) {
-    response.redirect('/');
-  } else {
-    response.render('sign-in');
-  }
-});
-
-router.post('/sign-in', async (request, response) => {
-  let email = request.body.email;
-  let password = request.body.password;
-
-  let user = await User.query().findOne({ email: email });
-  let passwordValid = user && (await user.verifyPassword(password));
-
-  if (passwordValid) {
-    request.session.userId = user.id;
-
-    response.redirect('/');
-  } else {
-    response.render('sign-in', { invalidLogin: true });
-  }
-});
-
-router.post('/sign-out', (request, response) => {
-  request.session.userId = null;
-  response.redirect('/');
-});
 
 // Route to render the new review form
 router.get('/newReview', async(request, response) => {
+  if (!request.user) {
+    response.redirect('/');
+  }
+
   let departments = await Department.query().orderBy('name');
   let faculty = await Faculty.query().orderBy('name');
   let courses = await Course.query().orderBy('course_number');
@@ -90,6 +36,10 @@ router.get('/newReview', async(request, response) => {
 
 // Route to post a new review
 router.post('/newReview', async(request, response) => {
+  if (!request.user) {
+    response.redirect('/');
+  }
+
   let {department, courseNumber, courseTitle,
     faculty, description, review, rating} = request.body;
   let dbDepartment = await Department.query().findOne({name: department});
@@ -124,6 +74,9 @@ router.post('/newReview', async(request, response) => {
 
 // Route to show all reviews
 router.get('/reviews', async(request, response) => {
+  if (!request.user) {
+    response.redirect('/');
+  }
   let user = request.user;
   let reviews = await Review.query();
   for (let each of reviews) {

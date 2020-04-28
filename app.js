@@ -8,8 +8,8 @@ let handlebars = require('express-handlebars');
 let cookieSession = require('cookie-session');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-let pagesRouter = require('./routes/pages');
+var userRouter = require('./routes/user');
+let spacesRouter = require('./routes/spaces');
 
 let loadUser = require('./loadUser');
 
@@ -65,8 +65,8 @@ app.use(getUser);
 
 
 app.use('/', indexRouter);
-app.use('/page', pagesRouter);
-app.use('/users', usersRouter);
+app.use('/space', spacesRouter);
+app.use('/user', userRouter);
 
 app.use(loadUser);
 // catch 404 and forward to error handler
