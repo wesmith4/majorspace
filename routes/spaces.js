@@ -5,6 +5,7 @@ let Department = require('../models/Department');
 let Faculty = require('../models/Faculty');
 let Course = require('../models/Course');
 let Review = require('../models/Review');
+let Message = require('../models/Message');
 
 // Display all information for a department homepage
 router.get('/:departmentName', async(request, response) => {
@@ -21,17 +22,54 @@ router.get('/:departmentName', async(request, response) => {
 
   let faculty = await department.$relatedQuery('faculty').orderBy('name');
   let reviews = await department.$relatedQuery('reviews').orderBy('created_at', 'desc');
-  reviews = Promise.all(reviews.map(async review => {
-    review.course = await review.$relatedQuery('course');
-    return review;
-  }));
+  for (let each of reviews) {
+    each.course = await each.$relatedQuery('course');
+  }
+
+
   let courses = await department.$relatedQuery('courses');
   let requests = await department.$relatedQuery('requests').orderBy('created_at', 'desc');
 
   console.log('Courses: ', courses);
   console.log('Messages: ', messages);
   console.log('Reviews: ', reviews);
-  response.render('majorspace', {department, messages, faculty, reviews, courses, requests});
+  response.render('majorspace', {department, messages, faculty, reviews, courses, requests, title: department.name, user: request.user});
+});
+
+
+
+router.post('/:departmentName/messages', async(request, response) => {
+  let user = request.user;
+  let department = await Department.query().findOne({name: request.params.departmentName});
+
+  let {subject, messageBody, isQuestion} = request.body;
+  let newMessage = await department.$relatedQuery('messages').insert({
+    userId: user.id,
+    subject: subject,
+    messageBody: messageBody,
+    isQuestion: isQuestion
+  });
+
+  console.log(`New message ${subject} posted by ${user.firstName}`);
+  response.redirect(`/space/${department.name}`)
+});
+
+router.post('/:departmentName/messages/:messageId/reply', async(request, response) => {
+  let user = request.user;
+  let department = await Department.query().findOne({name: request.params.departmentName});
+  let parentMessage = await Message.query().findById(Number(request.params.messageId));
+
+  let {messageBody} = request.body;
+  let subject = parentMessage.subject;
+
+  let newReply = await parentMessage.$relatedQuery('children').insert({
+    userId: user.id,
+    departmentId: department.id,
+    subject: subject,
+    messageBody: messageBody
+  });
+
+  response.redirect(`/space/${department.name}`);
 });
 
 module.exports = router;

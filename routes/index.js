@@ -46,12 +46,12 @@ router.post('/newReview', async(request, response) => {
   let dbFaculty = await Faculty.query().findOne({name: faculty});
   let dbCourse;
   try {
-    dbCourse = await Course.query().findOne({courseNumber: courseNumber});
-  } catch {
     dbCourse = await Course.query().insert({
       departmentId: dbDepartment.id,
       courseNumber: courseNumber
-    })
+    });
+  } catch {
+    dbCourse = await Course.query().findOne({'course_number': courseNumber});
   }
   let newReview = await Review.query().insert({
     userId: request.user.id,

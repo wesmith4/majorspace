@@ -1,15 +1,42 @@
 <div class="container-fluid">
+  {{!-- <title>{{department.name}}</title> --}}
+
+  <h1>Welcome to the {{department.name}} page!</h1>
   <div class="row">
     <div class="col-8">
-      {{#each reviews}}
+      {{!-- Message feed --}}
+      <div class="container">
+        <h2>Feed</h2>
         <div class="container">
-          <h3>{{course.courseNumber}}: {{courseTitle}}</h3>
-          <h5>{{rating}}</h5>
-          <p>{{description}}</p>
-          <p>{{review}}</p>
+          {{#each messages}}
+            <div class="message-bubble">
+              {{!-- message author --}}
+              <p class="lead">{{subject}}</p>
+              <p>{{messageBody}}</p>
+              {{#if replies}}
+                {{#each replies}}
+                  {{!-- Reply author --}}
+                  <p>{{messageBody}}</p>
+                {{/each}}
+              {{/if}}
+            </div>
+          {{/each}}
         </div>
-      {{/each}}
+      </div>
+
+
+      {{!-- Reviews --}}
+      <div class="container">
+        <h2>Reviews</h2>
+        {{#each reviews}}
+          <div class="container">
+            <h3>{{course.courseNumber}}: {{courseTitle}}</h3>
+            <h5>{{rating}}</h5>
+            <p>{{description}}</p>
+            <p>{{review}}</p>
+          </div>
+        {{/each}}
+      </div>
     </div>
   </div>
-
 </div>
