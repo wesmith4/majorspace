@@ -17,7 +17,7 @@
       <li class="nav-item" style="width: max-content;">
         <select placeholder="" class="selectpicker" styleBase="form-control" style="width: fit-content;" title="{{#if department}}{{department.name}}{{else}}Department...{{/if}}" data-live-search="true" id="" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
           {{#each departments}}
-            <option value="/spaces/{{name}}">{{name}}</option>
+            <option value="/spaces/{{name}}{{#if reviewsTab}}/reviews{{/if}}{{#if facultyTab}}/faculty{{/if}}">{{name}}</option>
           {{/each}}
         </select>
       </li>
