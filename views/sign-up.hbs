@@ -14,6 +14,11 @@
       <input type="text" name="classYear" class="form-control" placeholder="Class Year" required>
     </div>
 
+     {{#if invalidEmail}}
+      <div class="alert alert-danger">
+        Invalid email. Must be a valid "@davidson.edu" email address.
+      </div>
+    {{/if}}
     <div class="form-group">
       <input type="email" name="email" class="form-control" placeholder="Email address" required>
     </div>
