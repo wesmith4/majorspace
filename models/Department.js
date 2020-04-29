@@ -30,6 +30,8 @@ class Department extends Model {
     let Course = require('./Course');
     let Review = require('./Review');
     let User = require('./User');
+    let Message = require('./Message');
+    let Request = require('./Request');
     return {
       faculty: {
         relation: Model.ManyToManyRelation,
@@ -67,6 +69,18 @@ class Department extends Model {
           to: 'reviews.department_id'
         }
       },
+      requests: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Request,
+        join: {
+          from: 'departments.id',
+          through: {
+            from: 'courses.department_id',
+            to: 'courses.id',
+          },
+          to: 'review_requests.course_id'
+        }
+      },
       users: {
         relation: Model.ManyToManyRelation,
         modelClass: User,
@@ -77,6 +91,14 @@ class Department extends Model {
             to: 'users_to_departments.user_id'
           },
           to: 'users.id'
+        }
+      },
+      messages: {
+        relation: Model.HasManyRelation,
+        modelClass: Message,
+        join: {
+          from: 'departments.id',
+          to: 'messages.department_id'
         }
       }
     }

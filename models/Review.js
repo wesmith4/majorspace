@@ -67,3 +67,5 @@ class Review extends Model {
     }
   }
 }
+
+module.exports = Review;

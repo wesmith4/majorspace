@@ -15,26 +15,42 @@ class Course extends Model {
       required: [
         'departmentId',
         'courseNumber',
-        'courseTitle'
       ],
       properties: {
         id: {type: 'integer'},
         departmentId: {type: 'integer'},
         courseNumber: {type: 'string'},
-        courseTitle: {type: 'string'}
       }
     }
   }
 
   static get relationMappings() {
     let Department = require('./Department');
+    let Request = require('./Request');
+    let Review = require('./Review');
     return {
-      departments: {
+      department: {
         relation: Model.HasOneRelation,
         modelClass: Department,
         join: {
           from: 'courses.department_id',
           to: 'departments.id'
+        }
+      },
+      requests: {
+        relation: Model.HasManyRelation,
+        modelClass: Request,
+        join: {
+          from: 'courses.id',
+          to: 'review_requests.course_id'
+        }
+      },
+      reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: Review,
+        join: {
+          from: 'courses.id',
+          to: 'reviews.course_id'
         }
       }
     }
