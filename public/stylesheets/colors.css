@@ -25,3 +25,7 @@ body {
 .btn-davidson-red:hover {
   border: 1.5px solid white;
 }
+
+.card.h-100 a {
+  color: var(--davidson-red);
+}
