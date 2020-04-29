@@ -1,0 +1,101 @@
+{{!-- <div class="row">
+    <div class="col-8 white-background">
+      {{!-- Tab-based layout from bootstrap: https://getbootstrap.com/docs/4.4/components/navs/#javascript-behavior --}}
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="true">Feed</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Course Reviews</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        {{!-- Messages tab --}}
+        <div class="tab-pane fade show active" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+          <div class="container">
+            <div class="container">
+              {{#each messages}}
+                <div class="message-bubble">
+                  {{!-- message author --}}
+                  <p class="lead">{{subject}}</p>
+                  <p>{{messageBody}}</p>
+                  {{#if replies}}
+                    {{#each replies}}
+                      {{!-- Reply author --}}
+                      <p>{{messageBody}}</p>
+                    {{/each}}
+                  {{/if}}
+                </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+        {{!-- Reviews tab --}}
+        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+          <div class="container">
+            {{#each reviews}}
+              <div class="container">
+                <h3>{{course.courseNumber}}: {{courseTitle}}</h3>
+                <h4>{{faculty.name}}, {{semester}}</h4>
+                <h5>{{rating}}</h5>
+                <p>{{description}}</p>
+                <p>{{review}}</p>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Sidebar begins below --}}
+    <div class="col-4 white-background">
+      <ul class="nav nav-tabs" id="sideTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="faculty-tab" data-toggle="tab" href="#faculty" role="tab" aria-controls="faculty" aria-selected="true">Faculty</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="students-tab" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="courses-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="links-tab" data-toggle="tab" href="#links" role="tab" aria-controls="links" aria-selected="false">Links</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        {{!--faculty--}}
+        <div class="tab-pane fade show active" id="faculty" role="tabpanel" aria-labelledby="faculty-tab">
+          <div class="container">
+            {{#each faculty}}
+            <div class="container">
+              <h5>{{name}}</h5>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="students-tab">...</div>
+
+        <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+          <div class="container">
+          {{#each courses}}
+          <div class="container">
+            <h5>{{courseNumber}}</h5>
+          </div>
+          {{/each}}
+          </div>
+        </div>
+        <div class="tab-pane fade" id="links" role="tabpanel" aria-labelledby="links-tab">
+          <div class="container">
+            <ul>
+            {{#each links}}
+              <li><a href="{{url}}" target="_blank">{{label}}</a></li>
+            {{/each}}
+            </ul>
+          </div>
+        </div>
+        {{!-- End tab panes --}}
+      </div>
+
+    </div>
+  </div> --}}
