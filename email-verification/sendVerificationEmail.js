@@ -45,5 +45,4 @@ function sendVerificationEmail(email, token) {
   });
 }
 
-sendVerificationEmail('wismith@davidson.edu', crypto({length: 20}));
 module.exports = sendVerificationEmail;
