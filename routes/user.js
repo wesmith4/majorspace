@@ -73,7 +73,7 @@ router.get('/verify', async(request, response) => {
   let linkToken = request.query.token;
   let linkEmail = request.query.email;
 
-  let user = await User.findOne({email: linkEmail});
+  let user = await User.query().findOne({email: linkEmail});
   let userToken = await user.$relatedQuery('token');
 
   if (linkToken === userToken) {

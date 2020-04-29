@@ -12,7 +12,7 @@ async function loadUser(req, res, next) {
   if (userId) {
     let user = await User.query().findById(userId);
     if (user.verifiedAt) {
-      req.user = await User.query().findById(userId);
+      req.user = user;
       res.locals.allDepartments = await Department.query();
       res.locals.allFaculty = await Faculty.query();
       res.locals.user = req.user;

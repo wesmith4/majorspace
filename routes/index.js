@@ -16,7 +16,7 @@ router.get('/', async(request, response) => {
     let departments = await Department.query();
     response.render('welcome', { title: 'Major Space', user: request.user, departments });
   } else if (request.unverifiedUser) {
-    response.render('welcome', {verificationSent: true, email: request.email, unverifiedUser: true});
+    response.render('welcome', {title: 'Major Space', verificationSent: true, email: request.email, unverifiedUser: true});
   } else {
     response.render('welcome', {title: 'Major Space'});
   }

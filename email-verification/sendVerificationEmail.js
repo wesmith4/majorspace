@@ -8,7 +8,6 @@ function sendVerificationEmail(email, token) {
     domain: process.env.MAILGUN_DOMAIN
   });
 
-  // let messageHtml =
 
   let link = `https://majorspace.net/user/verify?token=${token}&email=${email}`;
   const data = {
