@@ -43,6 +43,10 @@ router.post('/newReview', async(request, response) => {
 
   let {department, courseNumber, courseTitle,
     faculty, description, review, rating} = request.body;
+
+  if (courseNumber.includes(' ')) {
+    return response.render('newReview', {spaceInCourseNumber: true});
+  }
   let dbDepartment = await Department.query().findOne({name: department});
   let dbFaculty = await Faculty.query().findOne({name: faculty});
   let dbCourse;
