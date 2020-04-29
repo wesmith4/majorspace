@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="text-center">
+    <a class="btn btn-primary btn-lg btn-davidson-red" data-toggle="collapse" href="#new-message-form" role="button" aria-expanded="false" aria-controls="new-message-form">
+      <i class="fas fa-feather-alt"></i>  New Message
+    </a>
+  </div>
+
+  <div class="collapse" id="new-message-form" style="margin-top: 1rem">{{> messageForm}}</div>
+  <hr class="my-4"></hr>
+  <div class="container row row-cols-1 row-cols-md-1">
+    {{#each messages}}
+      <div class="col mb-4">
+        <div class="card message-card shadow">
+          <div class="card-header" style="padding-left: 5%;">
+            <span><h5 style="display: inline;">{{user.firstName}} {{user.lastName}}</h5> -- {{subject}}</span>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p>{{messageBody}}</p>
+              <footer class="blockquote-footer text-right">{{createdAt}}</footer>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>

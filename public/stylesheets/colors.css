@@ -16,3 +16,12 @@ body {
 #userbar {
   background-color: var(--davidson-red) !important;
 }
+
+.btn-davidson-red {
+  background-color: #ac1a2f !important;
+  border: 1.5px solid var(--davidson-red);
+}
+
+.btn-davidson-red:hover {
+  border: 1.5px solid white;
+}
