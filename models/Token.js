@@ -19,6 +19,20 @@ class Token extends Model {
       }
     }
   }
+
+  static get relationMappings() {
+    let User = require('./User');
+    return {
+      user: {
+        relation: Model.HasOneRelation,
+        modelClass: User,
+        join: {
+          from: 'verification_tokens.user_id',
+          to: 'users.id'
+        }
+      }
+    }
+  }
 }
 
 module.exports = Token;

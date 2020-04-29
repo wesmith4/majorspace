@@ -16,6 +16,9 @@ async function loadUser(req, res, next) {
       res.locals.allDepartments = await Department.query();
       res.locals.allFaculty = await Faculty.query();
       res.locals.user = req.user;
+    } else {
+      req.unverifiedUser = true;
+      req.email = user.email;
     }
   }
 

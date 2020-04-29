@@ -8,8 +8,11 @@ let isDavidsonEmail = require('../email-verification/isDavidsonEmail');
 router.get('/sign-up', (request, response) => {
   if (request.user) {
     response.redirect('/');
+  } else if (request.unverifiedUser) {
+    response.redirect('/');
+  } else {
+    response.render('sign-up');
   }
-  response.render('sign-up');
 })
 
 router.post('/sign-up', async (request, response) => {
@@ -39,18 +42,30 @@ router.post('/sign-up', async (request, response) => {
       token: crypto({length: 20})
     });
   } catch {
-    user = await User.query().findOne({email: email});
-    token = await user.$relatedQuery('token');
+    (err) => {
+      console.log(err.stack);
+    }
   }
 
-  sendVerificationEmail(user.email, token);
+  sendVerificationEmail(user.email, token.token);
 
   if (user) {
     request.session.userId = user.id;
-    response.redirect('/', {verificationSent: true, email: user.email});
+    response.redirect('/');
   } else {
     response.render('sign-up');
   }
+});
+
+router.get('/resend', async(req,res) => {
+  let user = await User.query().findOne({email: req.email});
+  let newToken = crypto({length: 20});
+  console.log('newToken: ', newToken);
+  await user.$relatedQuery('token').patch({
+    token: newToken
+  });
+  sendVerificationEmail(user.email, newToken);
+  res.redirect('/');
 });
 
 
@@ -66,7 +81,9 @@ router.get('/verify', async(request, response) => {
     await User.query().patchAndFetchById(user.id, {
       verifiedAt: currentTime
     });
-    response.redirect('/spaces', {userVerified: true});
+    response.redirect('/');
+  } else {
+    response.redirect('verificationPage', {errorInVerification: true});
   }
 });
 

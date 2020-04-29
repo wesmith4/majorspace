@@ -1,12 +1,11 @@
 'use strict';
 require('dotenv').config();
 const mailgun = require('mailgun-js');
-let crypto = require('crypto-random-string');
 
 function sendVerificationEmail(email, token) {
   const mg = new mailgun({
-    apiKey: process.env.MAILGUN_APIKEY,
-    domain: process.env.DOMAIN
+    apiKey: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN
   });
 
   // let messageHtml =
@@ -34,7 +33,7 @@ function sendVerificationEmail(email, token) {
     <h1>Thank you for creating a Major Space Account!</h1>
     <h4>You just need to verify your account by clicking the button below, then you're good to go!</h4>
     <br><br>
-    <a href=${link} class="btn btn-primary btn-lg">Verify Account</a>
+    <a href="${link}" class="btn btn-primary btn-lg">Verify Account</a>
     <br><br>
     <h4>- Team Major Space</h4>
     `

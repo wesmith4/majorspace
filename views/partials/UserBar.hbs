@@ -49,12 +49,20 @@
       </div>
     </li>
     {{else}}
-      <li class="nav-item">
-        <a class="nav-link" href="/user/sign-up">Register</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user/sign-in">Log In</a>
-      </li>
+      {{#if unverifiedUser}}
+        <li class="nav-item">
+          <form action="/user/sign-out" method="POST">
+            <input class="nav-link" type="submit" value="Sign Out" style="background-color: inherit; border: none">
+          </form>
+        </li>
+      {{else}}
+        <li class="nav-item">
+          <a class="nav-link" href="/user/sign-up">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/sign-in">Log In</a>
+        </li>
+      {{/if}}
     {{/if}}
   </ul>
 </header>

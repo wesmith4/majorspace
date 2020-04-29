@@ -12,4 +12,8 @@
   <div class="alert alert-primary alert-dismissable fade show">
     We've sent an email to {{email}} with a link to verify your account!
   </div>
+
+  <form action="/user/resend" method="GET">
+    <input type="submit" class="btn btn-lg btn-primary btn-davidson-red" value="Resend Verification Email">
+  </form>
 {{/if}}
