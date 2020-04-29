@@ -36,8 +36,20 @@ router.get('/:departmentName', async(request, response) => {
   console.log('Courses: ', courses);
   console.log('Messages: ', messages);
   console.log('Reviews: ', reviews);
-  response.render('majorspace', {department, messages, faculty, links, reviews, courses, requests, title: department.name, user: request.user, departments});
+  response.render('majorspace', {department, messages, faculty, links, reviews, courses, requests, title: department.name, user: request.user, departments, feedTab: true});
 });
+
+router.get('/:departmentName/reviews', async(request, response) => {
+  let departments = await Department.query();
+  let department = await Department.query().findOne({name: request.params.departmentName});
+  let reviews = await department.$relatedQuery('reviews');
+  for (let review of reviews) {
+    review.course = await review.$relatedQuery('course');
+    review.faculty = await review.$relatedQuery('faculty');
+  }
+
+  response.render('majorspace', {user: request.user, departments, reviewsTab: true, reviews, department, title: department.name});
+})
 
 
 
