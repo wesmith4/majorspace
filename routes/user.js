@@ -47,7 +47,7 @@ router.post('/sign-up', async (request, response) => {
 
   if (user) {
     request.session.userId = user.id;
-    response.redirect('/');
+    response.redirect('/', {verificationSent: true, email: user.email});
   } else {
     response.render('sign-up');
   }

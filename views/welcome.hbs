@@ -1,4 +1,15 @@
 
 <h1 class="display-2">{{title}}</h1>
 <p class="lead">Welcome to {{title}} {{faculty}}</p>
-<p>A product by Lily Korir, Kendahl Ross, and Will Smith</p>
+<p>A project by Lily Korir, Kendahl Ross, and Will Smith</p>
+
+{{#if verificationSent}}
+  <script>
+    $(document).ready(function() {
+      $('.alert').alert()
+    })
+  </script>
+  <div class="alert alert-primary alert-dismissable fade show">
+    We've sent an email to {{email}} with a link to verify your account!
+  </div>
+{{/if}}

@@ -7,6 +7,12 @@ let Course = require('../models/Course');
 let Review = require('../models/Review');
 let Message = require('../models/Message');
 
+
+router.get('/', async(request, response) => {
+
+});
+
+
 // Display all information for a department homepage
 router.get('/:departmentName', async(request, response) => {
   let departments = await Department.query();
