@@ -34,7 +34,7 @@ router.get('/:departmentName/reviews', async(request, response) => {
     review.faculty = await review.$relatedQuery('faculty');
   }
 
-  response.render('majorspace', {user: request.user, departments, reviews, department, title: department.name, reviewsab: true,});
+  response.render('majorspace', {user: request.user, departments, reviews, department, title: department.name, reviewsTab: true,});
 });
 
 router.get('/:departmentName/faculty', async(request, response) => {
