@@ -7,3 +7,18 @@ body {
 a {
   color: #00B7FF;
 }
+
+.nav-item .bootstrap-select.dropdown {
+  min-width: fit-content;
+  color: var(--davidson-black) !important;
+}
+
+#userbar {
+  min-height: 4rem;
+  font-size: 1.2rem;
+}
+
+.message-card {
+  border: 1px solid #ac1a2f;
+  border-radius: 5%/20%;
+}

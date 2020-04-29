@@ -11,9 +11,10 @@ let Message = require('../models/Message');
   res.render('construction', { title: 'Major Space' });
 }); */
 
-router.get('/', (request, response) => {
+router.get('/', async(request, response) => {
   if (request.user) {
-    response.render('welcome', { title: 'Major Space', user: request.user });
+    let departments = await Department.query();
+    response.render('welcome', { title: 'Major Space', user: request.user, departments });
   } else {
     response.render('welcome', {title: 'Major Space'});
   }
@@ -42,6 +43,10 @@ router.post('/newReview', async(request, response) => {
 
   let {department, courseNumber, courseTitle,
     faculty, description, review, rating} = request.body;
+
+  if (courseNumber.includes(' ')) {
+    return response.render('newReview', {spaceInCourseNumber: true});
+  }
   let dbDepartment = await Department.query().findOne({name: department});
   let dbFaculty = await Faculty.query().findOne({name: faculty});
   let dbCourse;
@@ -81,8 +86,8 @@ router.get('/reviews', async(request, response) => {
   let reviews = await Review.query();
   for (let each of reviews) {
     each.professor = each.$relatedQuery('faculty');
-    each.department = each.$relatedQuery('departments');
-    each.author = each.$relatedQuery('users');
+    each.department = each.$relatedQuery('department');
+    each.author = each.$relatedQuery('user');
   }
 
   response.render('allReviews', {user, reviews});
