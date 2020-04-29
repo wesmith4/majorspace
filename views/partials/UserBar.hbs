@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-danger justify-content-between" id="userbar">
+<header class="navbar fixed-top navbar-expand-sm navbar-dark justify-content-between bd-navbar" id="userbar">
   <a class="navbar-brand" href="/">
     {{!-- <img src="/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> --}}
     Major Space
@@ -8,41 +8,44 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userLinks" aria-controls="userLinks" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
-  <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+  {{#if user}}
+  <div class="collapse navbar-collapse justify-content-between navbar-nav-scroll" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto flex-row">
       {{!-- <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li> --}}
-      {{#if user}}
-        {{#if department}}
-          <li class="nav-item dropdown">
-            <select placeholder="{{department.name}}" class="selectpicker" title="{{department.name}}" data-live-search="true" id="" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+
+          <li class="nav-item" style="width: max-content;">
+            <select placeholder="" class="selectpicker" styleBase="form-control" style="width: fit-content;" title="{{#if department}}{{department.name}}{{else}}Department...{{/if}}" data-live-search="true" id="" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
               {{#each departments}}
                 <option value="/spaces/{{name}}">{{name}}</option>
               {{/each}}
             </select>
           </li>
-        {{/if}}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{user.firstName}}
-          <i class="fas fa-user"></i>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <form action="/user/sign-out" method="post">
-            <a class="dropdown-item btn" onclick="this.parentNode.submit()">Sign Out</a>
-          </form>
-        </div>
-      </li>
-      {{else}}
+      {{/if}}
+    </ul>
+  </div>
+  {{/if}}
+  <ul class="navbar-nav ml-md-auto">
+    {{#if user}}
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-user"></i>
+        {{user.firstName}}
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="user-dropdown">
+        <form action="/user/sign-out" method="post">
+          <a class="dropdown-item btn" onclick="this.parentNode.submit()">Sign Out</a>
+        </form>
+      </div>
+    </li>
+    {{else}}
       <li class="nav-item">
         <a class="nav-link" href="/user/sign-up">Register</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/user/sign-in">Log In</a>
       </li>
-      {{/if}}
-    </ul>
-  </div>
-</nav>
+    {{/if}}
+  </ul>
+</header>
