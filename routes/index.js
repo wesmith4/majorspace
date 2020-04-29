@@ -82,8 +82,8 @@ router.get('/reviews', async(request, response) => {
   let reviews = await Review.query();
   for (let each of reviews) {
     each.professor = each.$relatedQuery('faculty');
-    each.department = each.$relatedQuery('departments');
-    each.author = each.$relatedQuery('users');
+    each.department = each.$relatedQuery('department');
+    each.author = each.$relatedQuery('user');
   }
 
   response.render('allReviews', {user, reviews});

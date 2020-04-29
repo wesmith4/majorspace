@@ -7,9 +7,9 @@
         <li class="nav-item">
           <a class="nav-link active" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="true">Feed</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Course Reviews</a>
-        </li>
+        {{!-- <li class="nav-item">
+          <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="true">Course Reviews</a>
+        </li> --}}
       </ul>
       <div class="tab-content" id="myTabContent">
         {{!-- Messages tab --}}
@@ -33,8 +33,10 @@
           </div>
         </div>
         {{!-- Reviews tab --}}
-        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+        <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
           <div class="container">
+           <a class="nav-link {{#if reviewsTab}}active{{/if}}" href="/newReview"><h3>Review A Course</h3></a>
+
             {{#each reviews}}
               <div class="container">
                 <h3>{{course.courseNumber}}: {{courseTitle}}</h3>
@@ -52,9 +54,9 @@
     {{!-- Sidebar begins below --}}
     <div class="col-4 white-background">
       <ul class="nav nav-tabs" id="sideTab" role="tablist">
-        <li class="nav-item">
+        {{!-- <li class="nav-item">
           <a class="nav-link active" id="faculty-tab" data-toggle="tab" href="#faculty" role="tab" aria-controls="faculty" aria-selected="true">Faculty</a>
-        </li>
+        </li> --}}
         <li class="nav-item">
           <a class="nav-link" id="students-tab" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
         </li>
@@ -66,16 +68,6 @@
         </li>
       </ul>
       <div class="tab-content">
-        {{!--faculty--}}
-        <div class="tab-pane fade show active" id="faculty" role="tabpanel" aria-labelledby="faculty-tab">
-          <div class="container">
-            {{#each faculty}}
-            <div class="container">
-              <h5>{{name}}</h5>
-            </div>
-            {{/each}}
-          </div>
-        </div>
         <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="students-tab">...</div>
 
         <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
@@ -100,6 +92,7 @@
       </div>
 
     </div>
+
   </div>
   <div class="row">
     {{#if facultyTab}}
