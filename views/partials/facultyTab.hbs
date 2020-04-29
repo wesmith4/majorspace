@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3">
+    {{#each faculty}}
+      <div class="col mb-4">
+        <div class="card h-100">
+          <img src="{{imageUrl}}" alt="faculty image" class="card-img-top">
+          <div class="card-body">
+            <a href="{{profileUrl}}"><h5 class="card-title">{{name}}</h5></a>
+            <p class="card-text lead">{{titles}}</p>
+            <ul class="card-text">
+              <li>Phone: {{phone}}</li>
+              <li>Email: {{email}}</li>
+              <li>Office: {{office}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>

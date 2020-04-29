@@ -23,20 +23,13 @@ router.get('/:departmentName', async(request, response) => {
 
   let faculty = await department.$relatedQuery('faculty').orderBy('name');
   let links = await department.$relatedQuery('links');
-  let reviews = await department.$relatedQuery('reviews').orderBy('created_at', 'desc');
-  for (let each of reviews) {
-    each.course = await each.$relatedQuery('course');
-    each.faculty = await each.$relatedQuery('faculty');
-  }
 
 
   let courses = await department.$relatedQuery('courses');
   let requests = await department.$relatedQuery('requests').orderBy('created_at', 'desc');
 
-  console.log('Courses: ', courses);
-  console.log('Messages: ', messages);
-  console.log('Reviews: ', reviews);
-  response.render('majorspace', {department, messages, faculty, links, reviews, courses, requests, title: department.name, user: request.user, departments, feedTab: true});
+
+  response.render('majorspace', {department, messages, title: department.name, user: request.user, departments, feedTab: true});
 });
 
 router.get('/:departmentName/reviews', async(request, response) => {
@@ -49,7 +42,15 @@ router.get('/:departmentName/reviews', async(request, response) => {
   }
 
   response.render('majorspace', {user: request.user, departments, reviewsTab: true, reviews, department, title: department.name});
-})
+});
+
+router.get('/:departmentName/faculty', async(request, response) => {
+  let departments = await Department.query();
+  let department = await Department.query().findOne({name: request.params.departmentName});
+  let faculty = await department.$relatedQuery('faculty');
+
+  response.render('majorspace', {title: department.name, user: request.user, departments, department, faculty, facultyTab: true});
+});
 
 
 
