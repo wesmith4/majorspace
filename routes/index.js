@@ -11,9 +11,10 @@ let Message = require('../models/Message');
   res.render('construction', { title: 'Major Space' });
 }); */
 
-router.get('/', (request, response) => {
+router.get('/', async(request, response) => {
   if (request.user) {
-    response.render('welcome', { title: 'Major Space', user: request.user });
+    let departments = await Department.query();
+    response.render('welcome', { title: 'Major Space', user: request.user, departments });
   } else {
     response.render('welcome', {title: 'Major Space'});
   }

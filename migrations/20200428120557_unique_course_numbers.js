@@ -6,5 +6,7 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  table.dropUnique('course_number');
+  return knex.schema.table('courses', (table) => {
+    table.dropUnique('course_number');
+  })
 };

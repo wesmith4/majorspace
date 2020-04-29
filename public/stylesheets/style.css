@@ -7,3 +7,13 @@ body {
 a {
   color: #00B7FF;
 }
+
+.nav-item .bootstrap-select.dropdown {
+  min-width: fit-content;
+  color: var(--davidson-black) !important;
+}
+
+#userbar {
+  min-height: 4rem;
+  font-size: 1.2rem;
+}
