@@ -9,7 +9,7 @@ function sendVerificationEmail(email, token) {
   });
 
 
-  let link = `https://majorspace.net/user/verify?token=${token}&email=${email}`;
+  let link = `https://majorspace.net/user/verify?token=${token}`;
   const data = {
     from: 'Major Space <verify@majorspace.net>',
     to: email,
@@ -30,9 +30,9 @@ function sendVerificationEmail(email, token) {
       </style>
     </head>
     <h1>Thank you for creating a Major Space Account!</h1>
-    <h4>You just need to verify your account by clicking the button below, then you're good to go!</h4>
+    <h4>You just need to verify your account by clicking the link below, then you're good to go!</h4>
     <br><br>
-    <a href="${link}" class="btn btn-primary btn-lg">Verify Account</a>
+    <a href="${link}">${link}</a>
     <br><br>
     <h4>- Team Major Space</h4>
     `

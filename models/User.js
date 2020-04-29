@@ -98,6 +98,10 @@ class User extends Password(Model) {
       }
     }
   }
+
+  get isVerified() {
+    return Boolean(this.verifiedAt);
+  }
 }
 
 module.exports = User;

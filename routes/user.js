@@ -70,21 +70,25 @@ router.get('/resend', async(req,res) => {
 
 
 router.get('/verify', async(request, response) => {
+
+  let userId = request.session.userId;
   let linkToken = request.query.token;
-  let linkEmail = request.query.email;
 
-  let user = await User.query().findOne({email: linkEmail});
-  let userToken = await user.$relatedQuery('token');
+  let user = await User.query().findById(userId);
 
-  if (linkToken === userToken) {
-    let currentTime = new Date();
-    await User.query().patchAndFetchById(user.id, {
-      verifiedAt: currentTime
-    });
-    response.redirect('/');
+  if (!user) {
+    request.session.userId = null;
   } else {
-    response.redirect('verificationPage', {errorInVerification: true});
+    let userToken = await user.$relatedQuery('token');
+
+    if (linkToken === userToken) {
+      await user.$patch({
+        verifiedAt: new Date(),
+      });
+    }
   }
+
+  response.redirect('/');
 });
 
 
