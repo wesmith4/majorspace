@@ -11,7 +11,6 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 let spacesRouter = require('./routes/spaces');
 
-let loadUser = require('./loadUser');
 
 var app = express();
 
@@ -60,15 +59,14 @@ let sessionHandler = cookieSession({
 app.use(sessionHandler);
 
 
-let getUser = require('./getUser');
-app.use(getUser);
-
+let loadUser = require('./loadUser');
+app.use(loadUser);
 
 app.use('/', indexRouter);
 app.use('/spaces', spacesRouter);
 app.use('/user', userRouter);
 
-app.use(loadUser);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
