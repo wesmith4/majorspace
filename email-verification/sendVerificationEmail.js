@@ -19,13 +19,7 @@ function sendVerificationEmail(email, token) {
         html {
           text-align: center;
         }
-        a {
-          padding: 2%;
-          border-radius: 5%;
-          background-color: blue;
-          color: white;
-          margin: 10px;
-        }
+
       </style>
     </head>
     <h1>Thank you for creating a Major Space Account!</h1>

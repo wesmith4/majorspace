@@ -25,35 +25,35 @@ router.post('/sign-up', async (request, response) => {
   // Reject non-Davidson emails
   if (!isDavidsonEmail(email)) {
     response.render('sign-up', {invalidEmail: true, title: 'Major Space'});
-  }
-
-  let user;
-  let token;
-  try {
-    user = await User.query().insert({
-      firstName: firstName,
-      lastName: lastName,
-      classYear: classYear,
-      email: email,
-      password: password,
-    });
-
-    token = await user.$relatedQuery('token').insert({
-      token: crypto({length: 20})
-    });
-  } catch {
-    (err) => {
-      console.log(err.stack);
-    }
-  }
-
-  sendVerificationEmail(user.email, token.token);
-
-  if (user) {
-    request.session.userId = user.id;
-    response.redirect('/');
   } else {
-    response.render('sign-up', {title: 'Major Space'});
+    let user;
+    let token;
+    try {
+      user = await User.query().insert({
+        firstName: firstName,
+        lastName: lastName,
+        classYear: classYear,
+        email: email,
+        password: password,
+      });
+
+      token = await user.$relatedQuery('token').insert({
+        token: crypto({length: 20})
+      });
+    } catch {
+      (err) => {
+        console.log(err.stack);
+      }
+    }
+
+    sendVerificationEmail(user.email, token.token);
+
+    if (user) {
+      request.session.userId = user.id;
+      response.redirect('/');
+    } else {
+      response.render('sign-up', {title: 'Major Space'});
+    }
   }
 });
 
