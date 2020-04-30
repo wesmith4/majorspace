@@ -23,11 +23,15 @@ router.get('/:departmentName', async(request, response) => {
   let messages = await department.$relatedQuery('messages').where('parent_message_id',null).orderBy('created_at', 'desc');
   for (let message of messages) {
     message.replies = await message.$relatedQuery('children').orderBy('created_at', 'desc');
+    let messageLikes = await message.$relatedQuery('likes');
+    message.numLikes = messageLikes.length;
     if (message.replies) {
       message.numReplies = message.replies.length;
     }
     for (let reply of message.replies) {
       reply.user = await reply.$relatedQuery('user');
+      let replyLikes = await reply.$relatedQuery('likes');
+      reply.numLikes = replyLikes.length;
     }
     message.user = await message.$relatedQuery('user');
   }
@@ -104,15 +108,21 @@ router.post('/:departmentName/messages/:messageId/reply', async(request, respons
   response.redirect(`/spaces/${department.name}`);
 });
 
-router.post('/:departmentName/messages/:messageId/like', async(request, response) => {
+router.get('/:departmentName/messages/:messageId/like', async(request, response) => {
   let department = await Department.query().findOne({name: request.params.departmentName});
-  let message = await Message.query().findById(request.params.messageId);
+  let user = request.user;
+  let messageId = Number(request.params.messageId);
 
-  await message.$relatedQuery('likes').insert({
-    userId: request.user.id,
-  });
+  let userLikes = await user.$relatedQuery('message_likes').where('message_id',messageId);
+  if (userLikes.length === 0) {
+    await user.$relatedQuery('message_likes').insert({
+      messageId: messageId
+    });
+  } else {
+    await user.$relatedQuery('message_likes').delete().where('message_id', messageId);
+  }
 
   response.redirect(`/spaces/${department.name}`);
-})
+});
 
 module.exports = router;

@@ -13,7 +13,7 @@ router.get('/sign-up', (request, response) => {
   } else {
     response.render('sign-up', {title: 'Major Space'});
   }
-})
+});
 
 router.post('/sign-up', async (request, response) => {
   let firstName = request.body.firstName;

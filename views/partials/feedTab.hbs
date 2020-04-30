@@ -21,7 +21,9 @@
               <footer class="blockquote-footer text-right">{{createdAt}}</footer>
             </blockquote>
           </div>
-          <div class="reply-buttons text-right" style="margin-right: 5%;">
+          <div class="buttons text-right" style="margin-right: 5%;">
+            <span>{{numLikes}} Likes  </span>
+            <a href="/spaces/{{@root.department.name}}/messages/{{id}}/like" class="btn btn-davidson-red btn-primary btn-sm">Like</a>
             {{#if replies}}
             <button class="btn btn-davidson-red btn-primary btn-sm" type="button" style="display: inline;" onclick="showReplies({{id}})">Replies ({{numReplies}})</button>
             {{/if}}
@@ -45,6 +47,10 @@
                   <p>{{messageBody}}</p>
                   <footer class="blockquote-footer text-right">{{createdAt}}</footer>
                 </blockquote>
+              </div>
+              <div class="text-right" style="margin-right: 5%;">
+                <span>{{numLikes}} Likes</span>
+                <a href="/spaces/{{@root.department.name}}/messages/{{id}}/like" class="btn btn-davidson-red btn-primary btn-sm">Like</a>
               </div>
             </div>
           {{/each}}
