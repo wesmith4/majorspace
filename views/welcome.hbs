@@ -1,19 +1,7 @@
 
-<h1 class="display-2">{{title}}</h1>
+<div class="container">
+  <h1 class="display-2">{{title}}</h1>
 <p class="lead">Welcome to {{title}} {{faculty}}</p>
-<p>A project by Lily Korir, Kendahl Ross, and Will Smith</p>
+<p>A product by Lily Korir, Kendahl Ross, and Will Smith</p>
+</div>
 
-{{#if verificationSent}}
-  <script>
-    $(document).ready(function() {
-      $('.alert').alert()
-    })
-  </script>
-  <div class="alert alert-primary alert-dismissable fade show">
-    We've sent an email to {{email}} with a link to verify your account!
-  </div>
-
-  <form action="/user/resend" method="GET">
-    <input type="submit" class="btn btn-lg btn-primary btn-davidson-red" value="Resend Verification Email">
-  </form>
-{{/if}}
