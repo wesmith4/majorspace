@@ -1,7 +1,9 @@
 
 <div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
   <form action="/newReview" method="POST" id="new-review-form">
-    <h2 class="display-2 text-center">New Course Review</h2>
+    <h6 class="display-2 text-center">New Course Review</h6>
     {{!-- Form group for the class info --}}
     <div class="form-group">
       <h3 class="text-center">Course Information</h3>
@@ -10,12 +12,6 @@
         <div class="form-row">
           <div class="col">
             <label for="course-department-input">Department</label>
-            {{!-- <input class="form-control" name="department" id="course-department-input" list="depts">
-            <datalist id="depts">
-              {{#each departments}}
-                <option value="{{name}}"></option>
-              {{/each}}
-            </datalist> --}}
             <select class="form-control selectpicker" id="course-department-input" title="Department" name="department" data-live-search="true" style="" styleBase="form-control" required>
               {{#each departments}}
               <option value="{{name}}">{{name}}</option>
@@ -25,7 +21,7 @@
           <div class="col">
             <div class="form-group">
               <label for="course-faculty-input">Professor / Faculty Member</label>
-              <select class="form-control selectpicker" title="Professor/Faculty Member" data-live-search="true" style="" styleBase="form-control" name="faculty" id="course-faculty-onput" required>
+              <select class="form-control selectpicker" title="Professor/Faculty Member" data-live-search="true" style="" styleBase="form-control" name="faculty" id="course-faculty-input" required>
                 {{#each faculty}}
                 <option value="{{name}}">{{name}}</option>
                 {{/each}}
@@ -45,6 +41,11 @@
                 {{/each}}
               </datalist>
               <small>Ex. "ECO101"</small>
+              {{#if spaceInCourseNumber}}
+                <div class="alert alert-danger">
+                  Course number cannot have a space: must use format "ECO101".
+                </div>
+              {{/if}}
             </div>
           </div>
           <div class="col-9">
@@ -102,4 +103,6 @@
 
     <input type="submit" class="btn btn-primary btn-large" value="Submit">
   </form>
+  </div>
+  </div>
 </div>

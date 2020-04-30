@@ -7,6 +7,12 @@ let Course = require('../models/Course');
 let Review = require('../models/Review');
 let Message = require('../models/Message');
 
+
+router.get('/', async(request, response) => {
+
+});
+
+
 // Display all information for a department homepage
 router.get('/:departmentName', async(request, response) => {
   let departments = await Department.query();
@@ -14,29 +20,15 @@ router.get('/:departmentName', async(request, response) => {
   console.log(request.params);
   let department = await Department.query().findOne({name: departmentName});
 
-  let messages = await department.$relatedQuery('messages').orderBy('created_at', 'desc');
-  messages = messages.filter(message => !message.parentMessageId).map(async message => {
-    replies = await message.$relatedQuery('children').orderBy('created_at', 'desc');
-    message.replies = replies;
-    return message;
-  });
-
-  let faculty = await department.$relatedQuery('faculty').orderBy('name');
-  let links = await department.$relatedQuery('links');
-  let reviews = await department.$relatedQuery('reviews').orderBy('created_at', 'desc');
-  for (let each of reviews) {
-    each.course = await each.$relatedQuery('course');
-    each.faculty = await each.$relatedQuery('faculty');
+  let messages = await department.$relatedQuery('messages').where('parent_message_id',null).orderBy('created_at', 'desc');
+  for (let message of messages) {
+    message.replies = await message.$relatedQuery('children').orderBy('created_at', 'desc');
+    for (let reply of message.replies) {
+      reply.user = reply.$relatedQuery('user');
+    }
+    message.user = await message.$relatedQuery('user');
   }
-
-
-  let courses = await department.$relatedQuery('courses');
-  let requests = await department.$relatedQuery('requests').orderBy('created_at', 'desc');
-
-  console.log('Courses: ', courses);
-  console.log('Messages: ', messages);
-  console.log('Reviews: ', reviews);
-  response.render('majorspace', {department, messages, faculty, links, reviews, courses, requests, title: department.name, user: request.user, departments, feedTab: true});
+  response.render('majorspace', {department, messages, title: department.name, user: request.user, departments, feedTab: true});
 });
 
 router.get('/:departmentName/reviews', async(request, response) => {
@@ -48,8 +40,16 @@ router.get('/:departmentName/reviews', async(request, response) => {
     review.faculty = await review.$relatedQuery('faculty');
   }
 
-  response.render('majorspace', {user: request.user, departments, reviewsTab: true, reviews, department, title: department.name});
-})
+  response.render('majorspace', {user: request.user, departments, reviews, department, title: department.name, reviewsTab: true,});
+});
+
+router.get('/:departmentName/faculty', async(request, response) => {
+  let departments = await Department.query();
+  let department = await Department.query().findOne({name: request.params.departmentName});
+  let faculty = await department.$relatedQuery('faculty');
+
+  response.render('majorspace', {title: department.name, user: request.user, departments, department, faculty, facultyTab: true});
+});
 
 
 
@@ -58,11 +58,14 @@ router.post('/:departmentName/messages', async(request, response) => {
   let department = await Department.query().findOne({name: request.params.departmentName});
 
   let {subject, messageBody, isQuestion} = request.body;
+  console.log(request.body);
+
+  let questionBoolean = (isQuestion ? 1 : 0);
   let newMessage = await department.$relatedQuery('messages').insert({
     userId: user.id,
     subject: subject,
     messageBody: messageBody,
-    isQuestion: isQuestion
+    isQuestion: questionBoolean
   });
 
   console.log(`New message ${subject} posted by ${user.firstName}`);

@@ -15,7 +15,7 @@
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li> --}}
       <li class="nav-item" style="width: max-content;">
-        <select placeholder="" class="selectpicker" styleBase="form-control" style="width: fit-content;" title="{{#if department}}{{department.name}}{{else}}Department...{{/if}}" data-live-search="true" id="" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+        <select class="form-control selectpicker" styleBase="form-control" style="" title="{{#if department}}{{department.name}}{{else}}Department...{{/if}}" data-live-search="true" id="department-selector" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
           {{#each departments}}
             <option value="/spaces/{{name}}">{{name}}</option>
           {{/each}}
@@ -27,6 +27,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link {{#if reviewsTab}}active{{/if}}" href="/spaces/{{department.name}}/reviews">Course Reviews</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{#if facultyTab}}active{{/if}}" href="/spaces/{{department.name}}/faculty">Faculty</a>
         </li>
       {{/if}}
     </ul>
@@ -46,12 +49,20 @@
       </div>
     </li>
     {{else}}
-      <li class="nav-item">
-        <a class="nav-link" href="/user/sign-up">Register</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user/sign-in">Log In</a>
-      </li>
+      {{#if unverifiedUser}}
+        <li class="nav-item">
+          <form action="/user/sign-out" method="POST">
+            <input class="nav-link" type="submit" value="Sign Out" style="background-color: inherit; border: none">
+          </form>
+        </li>
+      {{else}}
+        <li class="nav-item">
+          <a class="nav-link" href="/user/sign-up">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/sign-in">Log In</a>
+        </li>
+      {{/if}}
     {{/if}}
   </ul>
 </header>
