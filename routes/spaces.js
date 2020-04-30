@@ -48,6 +48,17 @@ router.get('/:departmentName/faculty', async(request, response) => {
   let department = await Department.query().findOne({name: request.params.departmentName});
   let faculty = await department.$relatedQuery('faculty');
 
+  // Sort faculty by last name
+  faculty = faculty.sort((a,b) => {
+    let nameListA = a.name.split(' ');
+    let nameListB = b.name.split(' ');
+    if (nameListA[nameListA.length - 1] === nameListB[nameListB.length - 1]) {
+      return (nameListA[0] > nameListB[0] ? 1 : -1);
+    } else {
+      return (nameListA[nameListA.length - 1] > nameListB[nameListB.length - 1] ? 1 : -1);
+    }
+  });
+
   response.render('majorspace', {title: department.name, user: request.user, departments, department, faculty, facultyTab: true});
 });
 
