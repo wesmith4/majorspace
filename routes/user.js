@@ -11,7 +11,7 @@ router.get('/sign-up', (request, response) => {
   } else if (request.unverifiedUser) {
     response.redirect('/');
   } else {
-    response.render('sign-up');
+    response.render('sign-up', {title: 'Major Space'});
   }
 })
 
@@ -24,7 +24,7 @@ router.post('/sign-up', async (request, response) => {
 
   // Reject non-Davidson emails
   if (!isDavidsonEmail(email)) {
-    response.render('sign-up', {invalidEmail: true});
+    response.render('sign-up', {invalidEmail: true, title: 'Major Space'});
   }
 
   let user;
@@ -53,7 +53,7 @@ router.post('/sign-up', async (request, response) => {
     request.session.userId = user.id;
     response.redirect('/');
   } else {
-    response.render('sign-up');
+    response.render('sign-up', {title: 'Major Space'});
   }
 });
 
@@ -105,7 +105,7 @@ router.get('/sign-in', (request, response) => {
   if (request.user) {
     response.redirect('/');
   } else {
-    response.render('sign-in');
+    response.render('sign-in', {title: 'Major Space'});
   }
 });
 
@@ -121,7 +121,7 @@ router.post('/sign-in', async (request, response) => {
 
     response.redirect('/');
   } else {
-    response.render('sign-in', { invalidLogin: true });
+    response.render('sign-in', { titleinvalidLogin: true , title: 'Major Space'});
   }
 });
 
