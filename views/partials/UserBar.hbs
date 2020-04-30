@@ -16,6 +16,7 @@
       </li> --}}
       <li class="nav-item" style="width: max-content;">
         <select class="form-control selectpicker" styleBase="form-control" style="" title="{{#if department}}{{department.name}}{{else}}Department{{/if}}" data-live-search="true" id="department-selector" onchange="this.options[this.selectedIndex].value && (window.location.pathname = this.options[this.selectedIndex].value);">
+
           {{#each departments}}
             <option value="/spaces/{{name}}">{{name}}</option>
           {{/each}}
@@ -75,6 +76,7 @@
 
             </form>
           </div>
+
         </li>
       {{/if}}
     {{/if}}

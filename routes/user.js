@@ -15,6 +15,7 @@ router.get('/sign-up', (request, response) => {
   }
 });
 
+
 router.post('/sign-up', async (request, response) => {
   let firstName = request.body.firstName;
   let lastName = request.body.lastName;
@@ -66,6 +67,7 @@ router.get('/resend', async(req,res) => {
 });
 
 
+
 router.get('/verify', async(request, response) => {
 
   let userId = request.session.userId;
@@ -96,6 +98,7 @@ router.get('/verify', async(request, response) => {
   console.log('~~~~~ About to redirect to home page');
   response.redirect('/');
 });
+
 
 
 router.get('/sign-in', (request, response) => {
