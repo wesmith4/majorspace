@@ -15,9 +15,11 @@ async function loadUser(req, res, next) {
     let user = await User.query().findById(userId);
     if (user) {
       if (user.verifiedAt) {
+        console.log('USER is VERIFIED');
         req.user = user;
         res.locals.user = req.user;
       } else {
+        console.log('User is not verified');
         req.unverifiedUser = true;
         req.email = user.email;
       }

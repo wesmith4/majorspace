@@ -73,6 +73,7 @@ router.get('/verify', async(request, response) => {
   let userId = request.session.userId;
   let linkToken = request.query.token;
 
+  console.log('Trying to verify user');
   console.log('USER ID: ----- ', userId);
 
   let user = await User.query().findById(userId);
