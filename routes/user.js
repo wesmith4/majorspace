@@ -27,23 +27,27 @@ router.post('/sign-up', async (request, response) => {
   if (!isDavidsonEmail(email)) {
     response.render('sign-up', {invalidEmail: true, title: 'Major Space'});
   } else {
-    let user;
-    let token;
-    try {
-      user = await User.query().insert({
-        firstName: firstName,
-        lastName: lastName,
-        classYear: classYear,
-        email: email,
-        password: password,
-      });
 
-      token = await user.$relatedQuery('token').insert({
-        token: crypto({length: 20})
-      });
-      sendVerificationEmail(user.email, token.token);
-    } catch (err) {
-      console.log('Error registering user:', err.stack);
+    let user = await User.query().findOne({email: email});
+
+    if (!user) {
+      let token;
+      try {
+        user = await User.query().insert({
+          firstName: firstName,
+          lastName: lastName,
+          classYear: classYear,
+          email: email,
+          password: password,
+        });
+
+        token = await user.$relatedQuery('token').insert({
+          token: crypto({length: 20})
+        });
+        sendVerificationEmail(user.email, token.token);
+      } catch (err) {
+        console.log('Error registering user:', err.stack);
+      }
     }
 
     if (user) {
