@@ -104,4 +104,15 @@ router.post('/:departmentName/messages/:messageId/reply', async(request, respons
   response.redirect(`/spaces/${department.name}`);
 });
 
+router.post('/:departmentName/messages/:messageId/like', async(request, response) => {
+  let department = await Department.query().findOne({name: request.params.departmentName});
+  let message = await Message.query().findById(request.params.messageId);
+
+  await message.$relatedQuery('likes').insert({
+    userId: request.user.id,
+  });
+
+  response.redirect(`/spaces/${department.name}`);
+})
+
 module.exports = router;
