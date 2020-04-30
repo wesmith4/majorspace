@@ -1,16 +1,19 @@
 <div class="container">
   <div class="row justify-content-center">
+    <div class="col-10">
     <div class="text-center">
       <a href="/newReview" class="btn-primary btn btn-lg btn-davidson-red"><i class="fas fa-feather-alt"></i> Write a Course Review</a>
     </div>
+    <hr class="my-4"></hr>
       {{#each reviews}}
         <div class="container white-background">
           <h3>{{course.courseNumber}}: {{courseTitle}}</h3>
-          <h4>{{faculty.name}}, {{semester}}</h4>
-          <h5>{{rating}}</h5>
+          <h4>{{faculty.name}}{{#if semester}}, {{semester}}{{/if}}</h4>
+          <h5>My Rating: {{rating}}/10</h5>
           <p>{{description}}</p>
           <p>{{review}}</p>
         </div>
       {{/each}}
+      </div>
   </div>
 </div>
