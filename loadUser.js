@@ -8,6 +8,8 @@ async function loadUser(req, res, next) {
 
   res.locals.user = null;
   req.user = null;
+
+
   if (userId) {
     let user = await User.query().findById(userId);
     if (user.verifiedAt) {

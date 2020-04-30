@@ -32,6 +32,7 @@ router.get('/:departmentName', async(request, response) => {
       reply.user = await reply.$relatedQuery('user');
       let replyLikes = await reply.$relatedQuery('likes');
       reply.numLikes = replyLikes.length;
+
     }
     message.user = await message.$relatedQuery('user');
   }
@@ -65,6 +66,7 @@ router.get('/:departmentName/faculty', async(request, response) => {
       return (nameListA[nameListA.length - 1] > nameListB[nameListB.length - 1] ? 1 : -1);
     }
   });
+
 
   response.render('majorspace', {title: department.name, user: request.user, departments, department, faculty, facultyTab: true});
 });
