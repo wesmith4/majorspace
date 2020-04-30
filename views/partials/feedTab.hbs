@@ -20,8 +20,27 @@
               <footer class="blockquote-footer text-right">{{createdAt}}</footer>
             </blockquote>
           </div>
+          <div class="reply-buttons text-right">
+            <button class="btn btn-davidson-red btn-primary btn-sm" type="button" onclick="showReplyForm({{id}})">Reply</button>
+          </div>
         </div>
+        <div id="{{id}}-reply-form" style="margin-top: .5rem; display: none;">
+          {{> replyForm}}
+        </div>
+
       </div>
     {{/each}}
   </div>
 </div>
+
+<script>
+  function showReplyForm(id) {
+    let form = document.getElementById(`${id}-reply-form`);
+    if (form.style.display === 'none') {
+      form.style.display = 'block';
+      $(`#${id}-reply-body`).focus();
+    } else {
+      form.style.display = 'none';
+    }
+  }
+</script>

@@ -24,7 +24,7 @@ router.get('/:departmentName', async(request, response) => {
   for (let message of messages) {
     message.replies = await message.$relatedQuery('children').orderBy('created_at', 'desc');
     for (let reply of message.replies) {
-      reply.user = reply.$relatedQuery('user');
+      reply.user = await reply.$relatedQuery('user');
     }
     message.user = await message.$relatedQuery('user');
   }

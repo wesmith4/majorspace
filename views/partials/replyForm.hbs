@@ -1,6 +1,20 @@
 <div class="container">
-  <form action="/space/{{../name}}/messages/{{id}}/reply" method="post" id="message-{{id}}-reply-form">
-    <textarea class="form-control" name="messageBody" id="message-body-input" cols="30" rows="10"></textarea>
-    <input class="btn btn-sm btn-primary" type="submit" value="Post Reply">
-  </form>
+  <div class="row justify-content-end">
+    <div class="col-6">
+      <div class="container">
+        <form action="/spaces/{{@root.department.name}}/messages/{{id}}/reply" method="post">
+          <h4>Reply</h4>
+          <div class="form-row">
+            <div class="col-9">
+              <textarea class="form-control" name="messageBody" id="{{id}}-reply-body" cols="30" rows="1"></textarea>
+            </div>
+            <div class="col-3">
+              <input class="btn btn-sm btn-primary btn-davidson-red" type="submit" value="Post Reply">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 </div>
