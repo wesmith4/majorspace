@@ -15,7 +15,8 @@
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li> --}}
       <li class="nav-item" style="width: max-content;">
-        <select class="form-control selectpicker" styleBase="form-control" style="" title="{{#if department}}{{department.name}}{{else}}Department...{{/if}}" data-live-search="true" id="department-selector" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+        <select class="form-control selectpicker" styleBase="form-control" style="" title="{{#if department}}{{department.name}}{{else}}Department{{/if}}" data-live-search="true" id="department-selector" onchange="this.options[this.selectedIndex].value && (window.location.pathname = this.options[this.selectedIndex].value);">
+
           {{#each departments}}
             <option value="/spaces/{{name}}">{{name}}</option>
           {{/each}}
@@ -59,8 +60,23 @@
         <li class="nav-item">
           <a class="nav-link" href="/user/sign-up">Register</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/user/sign-in">Log In</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="/" id="sign-in-dropdownButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sign In
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="sign-in-dropdownButton" id="sign-in-dropdown">
+            <form action="/user/sign-in" method="post">
+              <div class="form-group">
+                <input class="form-control" type="email" name="email" id="email-input" placeholder="Email">
+                <input class="form-control" type="password" name="password" id="password-input" placeholder="Password">
+              </div>
+              <div class="form-group text-center" style="margin-bottom: .5rem">
+                <input class="btn btn-sm btn-primary btn-davidson-red" type="submit" value="Sign In">
+              </div>
+
+            </form>
+          </div>
+
         </li>
       {{/if}}
     {{/if}}

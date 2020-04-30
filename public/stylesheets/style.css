@@ -2,6 +2,8 @@ body {
   padding: 50px;
   padding-top: 80px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* font-family: 'Nanum Gothic', sans-serif; */
+
 }
 
 a {
@@ -22,3 +24,10 @@ a {
   border: 1px solid #ac1a2f;
   border-radius: 5%/20%;
 }
+
+
+#sign-in-dropdown {
+  padding: 5%;
+  min-width: 20rem;
+}
+

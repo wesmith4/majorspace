@@ -22,7 +22,7 @@ class MessageLike extends Model {
 
   static get relationMappings() {
     let User = require('./User');
-    let Messages = require('./Message');
+    let Message = require('./Message');
     return {
       user: {
         relation: Model.HasOneRelation,

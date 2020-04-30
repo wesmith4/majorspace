@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+   <p><a class="nav-link {{#if reviewsTab}}active{{/if}}" href="/newReview"><h4>Review a Course</h4></a></p>
+            {{#each reviews}}
+              <div class="container">
+                <h3>{{course.courseNumber}}: {{courseTitle}}</h3>
+                <h4>{{faculty.name}}, {{semester}}</h4>
+                <h5>{{rating}}</h5>
+                <p>{{description}}</p>
+                <p>{{review}}</p>
+              </div>
+            {{/each}}
+  </div>
+</div>

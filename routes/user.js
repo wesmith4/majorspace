@@ -11,9 +11,10 @@ router.get('/sign-up', (request, response) => {
   } else if (request.unverifiedUser) {
     response.redirect('/');
   } else {
-    response.render('sign-up');
+    response.render('sign-up', {title: 'Major Space'});
   }
-})
+});
+
 
 router.post('/sign-up', async (request, response) => {
   let firstName = request.body.firstName;
@@ -24,36 +25,33 @@ router.post('/sign-up', async (request, response) => {
 
   // Reject non-Davidson emails
   if (!isDavidsonEmail(email)) {
-    response.render('sign-up', {invalidEmail: true});
-  }
-
-  let user;
-  let token;
-  try {
-    user = await User.query().insert({
-      firstName: firstName,
-      lastName: lastName,
-      classYear: classYear,
-      email: email,
-      password: password,
-    });
-
-    token = await user.$relatedQuery('token').insert({
-      token: crypto({length: 20})
-    });
-  } catch {
-    (err) => {
-      console.log(err.stack);
-    }
-  }
-
-  sendVerificationEmail(user.email, token.token);
-
-  if (user) {
-    request.session.userId = user.id;
-    response.redirect('/');
+    response.render('sign-up', {invalidEmail: true, title: 'Major Space'});
   } else {
-    response.render('sign-up');
+    let user;
+    let token;
+    try {
+      user = await User.query().insert({
+        firstName: firstName,
+        lastName: lastName,
+        classYear: classYear,
+        email: email,
+        password: password,
+      });
+
+      token = await user.$relatedQuery('token').insert({
+        token: crypto({length: 20})
+      });
+      sendVerificationEmail(user.email, token.token);
+    } catch (err) {
+      console.log('Error registering user:', err.stack);
+    }
+
+    if (user) {
+      request.session.userId = user.id;
+      response.redirect('/');
+    } else {
+      response.render('sign-up', {title: 'Major Space'});
+    }
   }
 });
 
@@ -67,6 +65,7 @@ router.get('/resend', async(req,res) => {
   sendVerificationEmail(user.email, newToken);
   res.redirect('/');
 });
+
 
 
 router.get('/verify', async(request, response) => {
@@ -101,11 +100,12 @@ router.get('/verify', async(request, response) => {
 });
 
 
+
 router.get('/sign-in', (request, response) => {
   if (request.user) {
     response.redirect('/');
   } else {
-    response.render('sign-in');
+    response.render('sign-in', {title: 'Major Space'});
   }
 });
 
@@ -118,10 +118,9 @@ router.post('/sign-in', async (request, response) => {
 
   if (passwordValid) {
     request.session.userId = user.id;
-
     response.redirect('/');
   } else {
-    response.render('sign-in', { invalidLogin: true });
+    response.render('sign-in', { invalidLogin: true , title: 'Major Space'});
   }
 });
 

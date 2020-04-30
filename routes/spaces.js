@@ -23,8 +23,16 @@ router.get('/:departmentName', async(request, response) => {
   let messages = await department.$relatedQuery('messages').where('parent_message_id',null).orderBy('created_at', 'desc');
   for (let message of messages) {
     message.replies = await message.$relatedQuery('children').orderBy('created_at', 'desc');
+    let messageLikes = await message.$relatedQuery('likes');
+    message.numLikes = messageLikes.length;
+    if (message.replies) {
+      message.numReplies = message.replies.length;
+    }
     for (let reply of message.replies) {
-      reply.user = reply.$relatedQuery('user');
+      reply.user = await reply.$relatedQuery('user');
+      let replyLikes = await reply.$relatedQuery('likes');
+      reply.numLikes = replyLikes.length;
+
     }
     message.user = await message.$relatedQuery('user');
   }
@@ -47,6 +55,18 @@ router.get('/:departmentName/faculty', async(request, response) => {
   let departments = await Department.query();
   let department = await Department.query().findOne({name: request.params.departmentName});
   let faculty = await department.$relatedQuery('faculty');
+
+  // Sort faculty by last name
+  faculty = faculty.sort((a,b) => {
+    let nameListA = a.name.split(' ');
+    let nameListB = b.name.split(' ');
+    if (nameListA[nameListA.length - 1] === nameListB[nameListB.length - 1]) {
+      return (nameListA[0] > nameListB[0] ? 1 : -1);
+    } else {
+      return (nameListA[nameListA.length - 1] > nameListB[nameListB.length - 1] ? 1 : -1);
+    }
+  });
+
 
   response.render('majorspace', {title: department.name, user: request.user, departments, department, faculty, facultyTab: true});
 });
@@ -86,6 +106,23 @@ router.post('/:departmentName/messages/:messageId/reply', async(request, respons
     subject: subject,
     messageBody: messageBody
   });
+
+  response.redirect(`/spaces/${department.name}`);
+});
+
+router.get('/:departmentName/messages/:messageId/like', async(request, response) => {
+  let department = await Department.query().findOne({name: request.params.departmentName});
+  let user = request.user;
+  let messageId = Number(request.params.messageId);
+
+  let userLikes = await user.$relatedQuery('message_likes').where('message_id',messageId);
+  if (userLikes.length === 0) {
+    await user.$relatedQuery('message_likes').insert({
+      messageId: messageId
+    });
+  } else {
+    await user.$relatedQuery('message_likes').delete().where('message_id', messageId);
+  }
 
   response.redirect(`/spaces/${department.name}`);
 });
