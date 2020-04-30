@@ -13,6 +13,10 @@ body {
   background-color: white !important;
 }
 
+.background-davidson-red {
+  background-color: var(--davidson-red);
+}
+
 #userbar {
   background-color: var(--davidson-red) !important;
 }
@@ -26,6 +30,27 @@ body {
   border: 1.5px solid white;
 }
 
+.btn-white {
+  background-color: white;
+  border: 1.5px solid white;
+  color: black;
+}
+
+.btn-white:hover {
+  border: 1.5px solid var(--davidson-black);
+  background-color: white;
+  color: black;
+}
+
 .card.h-100 a {
   color: var(--davidson-red);
+}
+
+#jumbotron {
+  border: 2px solid black;
+  border-radius: 5%/10%;
+}
+
+.card-header {
+  background-color: rgba(179, 179, 179, 0);
 }

@@ -18,10 +18,11 @@ a {
 #userbar {
   min-height: 4rem;
   font-size: 1.2rem;
+  border-bottom: 2px solid black;
 }
 
 .message-card {
-  border: 1px solid #ac1a2f;
+  border: 2px solid #ac1a2f;
   border-radius: 5%/20%;
 }
 
@@ -30,4 +31,3 @@ a {
   padding: 5%;
   min-width: 20rem;
 }
-
