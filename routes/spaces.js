@@ -23,6 +23,9 @@ router.get('/:departmentName', async(request, response) => {
   let messages = await department.$relatedQuery('messages').where('parent_message_id',null).orderBy('created_at', 'desc');
   for (let message of messages) {
     message.replies = await message.$relatedQuery('children').orderBy('created_at', 'desc');
+    if (message.replies) {
+      message.numReplies = message.replies.length;
+    }
     for (let reply of message.replies) {
       reply.user = await reply.$relatedQuery('user');
     }
