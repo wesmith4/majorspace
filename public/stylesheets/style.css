@@ -22,3 +22,8 @@ a {
   border: 1px solid #ac1a2f;
   border-radius: 5%/20%;
 }
+
+#sign-in-dropdown {
+  padding: 5%;
+  min-width: 20rem;
+}

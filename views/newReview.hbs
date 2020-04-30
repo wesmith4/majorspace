@@ -82,7 +82,7 @@
         document.getElementById("slider_value").innerHTML=x;}</script>
 
         <label for="course-rating-input">Rating</label>
-        <center><span id="slider_value" style="color:blue;"></span></center>
+        <center><span id="slider_value" style="color:#ac1a2f;"></span></center>
        <input class="form-control" type="range" list="tickmarks" min="0" max="10" step="1" name="rating" id="course-rating-input" onchange="show_value(this.value);" required>
         <datalist id="tickmarks">
           <option value="0" label="0"></option>
@@ -100,8 +100,9 @@
         <small>Your 1-10 rating of the course</small>
       </div>
     </div>
-
-    <input type="submit" class="btn btn-primary btn-large" value="Submit">
+    <div class="form-group text-center">
+      <input type="submit" class="btn btn-primary btn-davidson-red btn-lg" value="Submit">
+    </div>
   </form>
   </div>
   </div>

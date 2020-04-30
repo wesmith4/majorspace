@@ -118,10 +118,9 @@ router.post('/sign-in', async (request, response) => {
 
   if (passwordValid) {
     request.session.userId = user.id;
-
     response.redirect('/');
   } else {
-    response.render('sign-in', { titleinvalidLogin: true , title: 'Major Space'});
+    response.render('sign-in', { invalidLogin: true , title: 'Major Space'});
   }
 });
 
