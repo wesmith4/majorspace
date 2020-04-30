@@ -24,11 +24,13 @@ function sendVerificationEmail(email, token) {
       </style>
     </head>
     <h1>Thank you for creating a Major Space Account!</h1>
+    <br>
     <h4>You just need to verify your account by clicking the link below, then you're good to go!</h4>
     <br><br>
     <a href="${link}">${link}</a>
     <br><br>
     <h4>- Team Major Space</h4>
+    <h5>Lily Korir, Kendahl Ross, and Will Smith</h5>
 
 
 
