@@ -4,15 +4,16 @@
   <div class="row row-cols-1 row-cols-md-2">
     {{#each faculty}}
       <div class="col mb-4">
-        <div class="card h-100">
+        <div class="card shadow rounded h-100" style="border: none">
           <div class="row no-gutters">
             <div class="col-md-5">
-              <img src="{{imageUrl}}" alt="faculty image" class="card-img" style="max-width: 100%;">
+              <img src="{{imageUrl}}" alt="faculty image" class="card-img" style="height: 100%;">
+
             </div>
             <div class="col-md-7">
               <div class="card-body">
-                <a href="{{profileUrl}}"><h5 class="card-title">{{name}}</h5></a>
-                <p class="card-text">{{titles}}</p>
+                <a href="{{profileUrl}}" target="_blank"><h5 class="card-title">{{name}}</h5></a>
+                <h6 class="card-text">{{titles}}</h6>
                 <ul class="card-text" style="list-style-type: none; padding-inline-start: 0%;">
                   <li>Phone: {{phone}}</li>
                   <li>Email: <a href="mailto:{{email}}" target="_blank">{{email}}</a></li>

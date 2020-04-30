@@ -15,6 +15,8 @@ router.get('/', async(request, response) => {
   if (request.user) {
     let departments = await Department.query();
     response.render('welcome', { title: 'Major Space', user: request.user, departments });
+  } else if (request.unverifiedUser) {
+    response.render('welcome', {title: 'Major Space', verificationSent: true, email: request.email, unverifiedUser: true});
   } else {
     response.render('welcome', {title: 'Major Space'});
   }
@@ -32,7 +34,7 @@ router.get('/newReview', async(request, response) => {
   let faculty = await Faculty.query().orderBy('name');
   let courses = await Course.query().orderBy('course_number');
 
-  response.render('newReview', {user: request.user, departments, faculty, courses});
+  response.render('newReview', {title: 'New Review', user: request.user, departments, faculty, courses});
 });
 
 // Route to post a new review

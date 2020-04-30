@@ -1,12 +1,12 @@
 let { Model, snakeCaseMappers } = require('objection');
 
-class MessageLike extends Model {
+class Token extends Model {
   static get columnNameMappers() {
     return snakeCaseMappers();
   }
 
   static get tableName() {
-    return 'message_likes';
+    return 'verification_tokens';
   }
 
   static get jsonSchema() {
@@ -15,33 +15,24 @@ class MessageLike extends Model {
       properties: {
         id: {type: 'integer'},
         userId: {type: 'integer'},
-        messageId: {type: 'integer'},
+        token: {type: 'string'}
       }
     }
   }
 
   static get relationMappings() {
     let User = require('./User');
-    let Message = require('./Message');
     return {
       user: {
         relation: Model.HasOneRelation,
         modelClass: User,
         join: {
-          from: 'message_likes.user_id',
+          from: 'verification_tokens.user_id',
           to: 'users.id'
-        }
-      },
-      message: {
-        relation: Model.HasOneRelation,
-        modelClass: Message,
-        join: {
-          from: 'message_likes.message_id',
-          to: 'messages.id'
         }
       }
     }
   }
 }
 
-module.exports = MessageLike;
+module.exports = Token;
