@@ -40,13 +40,10 @@ router.post('/sign-up', async (request, response) => {
       token = await user.$relatedQuery('token').insert({
         token: crypto({length: 20})
       });
-    } catch {
-      (err) => {
-        console.log(err.stack);
-      }
+      sendVerificationEmail(user.email, token.token);
+    } catch (err) {
+      console.log('Error registering user:', err.stack);
     }
-
-    sendVerificationEmail(user.email, token.token);
 
     if (user) {
       request.session.userId = user.id;
