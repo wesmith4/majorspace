@@ -102,6 +102,11 @@ class User extends Password(Model) {
   get isVerified() {
     return Boolean(this.verifiedAt);
   }
+
+  async isValidVerificationToken(token) {
+    let userToken = await this.$relatedQuery('token');
+    return userToken.token === token;
+  }
 }
 
 module.exports = User;

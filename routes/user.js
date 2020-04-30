@@ -74,20 +74,29 @@ router.get('/verify', async(request, response) => {
   let userId = request.session.userId;
   let linkToken = request.query.token;
 
+  console.log('USER ID: ----- ', userId);
+
   let user = await User.query().findById(userId);
 
   if (!user) {
+    console.log('~~~~~~ USER IS NULL');
     request.session.userId = null;
   } else {
+    console.log('~~~~~ We have a user');
+    console.log('~~~~~~ The link token is ', linkToken);
     let userToken = await user.$relatedQuery('token');
+    console.log('~~~~~ The user token is ', userToken.token);
 
-    if (linkToken === userToken) {
-      await user.$patch({
+    if (await user.isValidVerificationToken(linkToken)) {
+      console.log('~~~~~ Link Token is equal to User TOken');
+      await user.$query().patch({
         verifiedAt: new Date(),
       });
+      console.log('~~~~~~ We have patched the user to authorize');
     }
   }
 
+  console.log('~~~~~ About to redirect to home page');
   response.redirect('/');
 });
 

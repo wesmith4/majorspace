@@ -34,7 +34,7 @@ router.get('/newReview', async(request, response) => {
   let faculty = await Faculty.query().orderBy('name');
   let courses = await Course.query().orderBy('course_number');
 
-  response.render('newReview', {user: request.user, departments, faculty, courses});
+  response.render('newReview', {title: 'New Review', user: request.user, departments, faculty, courses});
 });
 
 // Route to post a new review

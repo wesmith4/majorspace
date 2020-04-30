@@ -15,9 +15,9 @@
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li> --}}
       <li class="nav-item" style="width: max-content;">
-        <select placeholder="" class="form-control selectpicker" styleBase="form-control" style="" title="{{#if department}}{{department.name}}{{else}}Department...{{/if}}" data-live-search="true" id="" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+        <select class="form-control selectpicker" styleBase="form-control" style="" title="{{#if department}}{{department.name}}{{else}}Department...{{/if}}" data-live-search="true" id="department-selector" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
           {{#each departments}}
-            <option value="/spaces/{{name}}{{#if reviewsTab}}/reviews{{/if}}{{#if facultyTab}}/faculty{{/if}}">{{name}}</option>
+            <option value="/spaces/{{name}}">{{name}}</option>
           {{/each}}
         </select>
       </li>
