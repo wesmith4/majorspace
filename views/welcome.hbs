@@ -1,7 +1,17 @@
 
-<div class="container">
-  <h1 class="display-2">{{title}}</h1>
-<p class="lead">Welcome to {{title}} {{faculty}}</p>
-<p>A product by Lily Korir, Kendahl Ross, and Will Smith</p>
+<div id="jumbotron" class="jumbotron background-davidson-red text-center" style="color: white; padding-top: .5rem;">
+  <img src="/images/majorspace.png" alt="" style="width: 45%;">
+  {{#if user}}
+  <p class="lead"><em>Your</em> Davidson community, online.</p>
+  {{else}}
+  <p class="lead">a <span style="font-size: 1.5rem;"><strong>Davidson</strong></span> community.</p>
+  <p class="lead">Powered by Students.</p>
+  {{/if}}
+  <hr class="my-4" style="background-color: white">
+  {{#if user}}
+  <p class="lead">Find an academic space in the tab above!</p>
+  {{else}}
+  <p class="lead">New to Major Space?</p>
+  <a href="/user/sign-up" class="btn btn-primary btn-white btn-lg">Sign Up</a>
+  {{/if}}
 </div>
-

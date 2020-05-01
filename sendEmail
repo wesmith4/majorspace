@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+if [[ "$#" -ne 1 ]]; then
+  echo "Usage: sendEmail <recipientAddress>"
+  exit 1
+fi
+
+source .env
+
+curl -s --user "api:${MAILGUN_API_KEY}" \
+    https://api.mailgun.net/v3/mail.majorspace.net/messages \
+    -F from='Major Space <verify@mail.majorspace.net>' \
+    -F to="${1}" \
+    -F subject='Hey Jesse, welcome to Major Space. This is just a test email.' \
+    -F text='Hey Jesse,
+
+Welcome to Major Space! We are excited to see you join.
+
+Visit http://majorspace.net/verify/ab7123mf917bfbadasd to verify your account and get started.
+
+If you no longer wish to receive emails like this, click here to unsubscribe: http://majorspace.net/unsubscribe/hla9123bd8123gdasd'

@@ -9,12 +9,14 @@
 
   <div class="collapse" id="new-message-form" style="margin-top: 1rem">{{> messageForm}}</div>
   <hr class="my-4"></hr>
-  <div class="container row row-cols-1 row-cols-md-1">
+  <div class="row justify-content-center">
+  <div class="col-10">
+  <div class="container row row-cols-1 row-cols-md-1" style="margin-left: 0; margin-right: 0;">
     {{#each messages}}
       <div class="col mb-4">
         <div class="card message-card shadow">
           <div class="card-header" style="padding-left: 5%;">
-            <span><h5 style="display: inline;">{{user.firstName}} {{user.lastName}}</h5> -- {{subject}}</span>
+            <span><h5 style="display: inline;"><strong>{{user.firstName}} {{user.lastName}}</strong>: {{subject}}</h5></span>
           </div>
           <div class="card-body">
             <blockquote class="blockquote mb-0">
@@ -39,7 +41,7 @@
         {{#if replies}}
         <div class="container row row-cols-1 justify-content-end">
           <div class="col-7">
-          <div class="container row-row-cols-1" id="{{id}}-replies" style="display: none;">
+          <div class="container row-row-cols-1" id="{{id}}-replies" style="display: none; margin-top: 1rem;">
           {{#each replies}}
             <div class="card message-card shadow-sm">
               <div class="card-header" style="padding-left: 5%;"><h6>{{user.firstName}} {{user.lastName}}</h6></div>
@@ -62,5 +64,7 @@
 
       </div>
     {{/each}}
+  </div>
+  </div>
   </div>
 </div>
