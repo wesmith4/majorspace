@@ -16,7 +16,7 @@
       <div class="col mb-4">
         <div class="card message-card shadow">
           <div class="card-header" style="padding-left: 5%;">
-            <span><h5 style="display: inline;"><strong>{{user.firstName}} {{user.lastName}}</strong>: {{subject}}</h5></span>
+            <div class="d-flex justify-content-between"><span><h5 style="display: inline;"><strong>{{user.firstName}} {{user.lastName}}</strong>: {{subject}}</h5></span>{{#if user.joined}}<span class="align-middle"><h6><em>Member of {{../department.name}}</em></h6></span>{{/if}}</div>
           </div>
           <div class="card-body">
             <blockquote class="blockquote mb-0">
@@ -44,7 +44,7 @@
           <div class="container row-row-cols-1" id="{{id}}-replies" style="display: none; margin-top: 1rem;">
           {{#each replies}}
             <div class="card message-card shadow-sm">
-              <div class="card-header" style="padding-left: 5%;"><h6>{{user.firstName}} {{user.lastName}}</h6></div>
+              <div class="card-header d-flex justify-content-between" style="padding-left: 5%;"><span><h5><strong>{{user.firstName}} {{user.lastName}}</strong></h5></span>{{#if user.joined}}<span><h6><em>Member of {{@root.department.name}}</em></h6></span>{{/if}}</div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
                   <p>{{messageBody}}</p>
