@@ -34,9 +34,9 @@
         <li class="nav-item">
           <a class="nav-link {{#if facultyTab}}active{{/if}}" href="/spaces/{{department.name}}/faculty">Faculty</a>
         </li>
-        <li class="nav-item">
+       {{!--  <li class="nav-item">
           <a class="nav-link {{#if newReviewTab}}active{{/if}}" href="/newReview">Review a Course</a>
-        </li>
+        </li> --}}
 
       {{/if}}
     </ul>
@@ -44,6 +44,17 @@
   {{/if}}
   <ul class="navbar-nav ml-md-auto">
     {{#if user}}
+    {{#if department}}
+    {{#if userBelongsToDepartment}}
+    <li class="nav-item">
+      <a href="/spaces/{{department.name}}/leave" class="badge badge-pill badge-light align-middle" style="margin-top: .5rem;"><span class="align-middle"><img src="/images/hat-icon.png" style="height: 1.25rem;"> Member of {{department.name}}</span></a>
+    </li>
+    {{else}}
+    <li class="nav-item">
+      <a href="/spaces/{{department.name}}/join" class="badge badge-pill badge-light" style="margin-top: .6rem">Join {{department.name}}</a>
+    </li>
+    {{/if}}
+    {{/if}}
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-user"></i>

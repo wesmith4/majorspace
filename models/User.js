@@ -107,6 +107,12 @@ class User extends Password(Model) {
     let userToken = await this.$relatedQuery('token');
     return userToken.token === token;
   }
+
+  async belongsToDepartment(name) {
+    let userDepartment = await this.$relatedQuery('departments').where('departments.name', name);
+    console.log(userDepartment);
+    return (userDepartment.length > 0 ? true : false);
+  }
 }
 
 module.exports = User;

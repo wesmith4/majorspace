@@ -15,10 +15,14 @@ router.get('/', async(request, response) => {
 
 // Display all information for a department homepage
 router.get('/:departmentName', async(request, response) => {
+  let user = request.user;
   let departments = await Department.query();
   let {departmentName} = request.params;
   console.log(request.params);
   let department = await Department.query().findOne({name: departmentName});
+
+  let userBelongsToDepartment = await user.belongsToDepartment(department.name);
+  console.log(`USER BELONGS TO ${department.name}: ${userBelongsToDepartment}`);
 
   let messages = await department.$relatedQuery('messages').where('parent_message_id',null).orderBy('created_at', 'desc');
   for (let message of messages) {
@@ -30,32 +34,41 @@ router.get('/:departmentName', async(request, response) => {
     }
     for (let reply of message.replies) {
       reply.user = await reply.$relatedQuery('user');
+      reply.user.joined = reply.user.belongsToDepartment(department.name);
       let replyLikes = await reply.$relatedQuery('likes');
       reply.numLikes = replyLikes.length;
 
     }
     message.user = await message.$relatedQuery('user');
+    message.user.joined = userBelongsToDepartment;
   }
-  response.render('majorspace', {department, messages, title: department.name, user: request.user, departments, feedTab: true});
+
+  response.render('majorspace', {department, messages, title: department.name, user, departments, feedTab: true, userBelongsToDepartment});
+
+
 });
 
 router.get('/:departmentName/reviews', async(request, response) => {
   let departments = await Department.query();
   let department = await Department.query().findOne({name: request.params.departmentName});
   let reviews = await department.$relatedQuery('reviews');
+  let user = request.user;
+  let userBelongsToDepartment = await user.belongsToDepartment(department.name);
   for (let review of reviews) {
     review.user = await review.$relatedQuery('user');
     review.course = await review.$relatedQuery('course');
     review.faculty = await review.$relatedQuery('faculty');
   }
 
-  response.render('majorspace', {user: request.user, departments, reviews, department, title: department.name, reviewsTab: true,});
+  response.render('majorspace', {user: request.user, departments, reviews, department, title: department.name, reviewsTab: true, userBelongsToDepartment});
 });
 
 router.get('/:departmentName/faculty', async(request, response) => {
   let departments = await Department.query();
   let department = await Department.query().findOne({name: request.params.departmentName});
   let faculty = await department.$relatedQuery('faculty');
+  let user = request.user;
+  let userBelongsToDepartment = await user.belongsToDepartment(department.name);
 
   // Sort faculty by last name
   faculty = faculty.sort((a,b) => {
@@ -69,7 +82,7 @@ router.get('/:departmentName/faculty', async(request, response) => {
   });
 
 
-  response.render('majorspace', {title: department.name, user: request.user, departments, department, faculty, facultyTab: true});
+  response.render('majorspace', {title: department.name, user: request.user, departments, department, faculty, facultyTab: true, userBelongsToDepartment});
 });
 
 
@@ -127,5 +140,30 @@ router.get('/:departmentName/messages/:messageId/like', async(request, response)
 
   response.redirect(`/spaces/${department.name}`);
 });
+
+router.get('/:departmentName/join', async(request, response) => {
+  let department = await Department.query().findOne({name: request.params.departmentName});
+  let user = request.user;
+
+  try {
+    await user.$relatedQuery('departments').relate(department);
+  } catch {
+    console.log(`Failed to add department ${department.name} to user profile.`)
+  }
+
+  response.redirect(`/spaces/${department.name}`);
+});
+
+router.get('/:departmentName/leave', async(request, response) => {
+  let department = await Department.query().findOne({name: request.params.departmentName});
+  let user = request.user;
+  try {
+    await user.$relatedQuery('departments').unrelate().where('departments.name', department.name);
+  } catch {
+    console.log('Failed to unrelate user and department: ', department.name);
+  }
+
+  response.redirect(`/spaces/${department.name}`);
+})
 
 module.exports = router;
