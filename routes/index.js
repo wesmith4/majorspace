@@ -44,7 +44,7 @@ router.post('/newReview', async(request, response) => {
   }
 
   let {department, courseNumber, courseTitle,
-    faculty, description, review, rating} = request.body;
+    faculty, description, review, rating, semester} = request.body;
 
   if (courseNumber.includes(' ')) {
     return response.render('newReview', {spaceInCourseNumber: true});
@@ -68,7 +68,8 @@ router.post('/newReview', async(request, response) => {
     facultyId: dbFaculty.id,
     description: description,
     review: review,
-    rating: rating
+    rating: rating,
+    semester: semester
   });
 
   if (newReview) {

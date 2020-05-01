@@ -1,6 +1,6 @@
 <div class="container" style="margin-bottom: 5px;">
   <div class="row justify-content-end">
-    <div class="col-6">
+    <div class="col-8">
       <div class="container">
         <form action="/spaces/{{@root.department.name}}/messages/{{id}}/reply" method="post">
           <h4>Reply</h4>
@@ -9,7 +9,9 @@
               <textarea class="form-control" name="messageBody" id="{{id}}-reply-body" cols="30" rows="1"></textarea>
             </div>
             <div class="col-3">
-              <input class="btn btn-sm btn-primary btn-davidson-red" type="submit" value="Post Reply">
+              <span class="align-middle">
+              <input class="btn btn-sm btn-primary btn-davidson-red" type="submit" value="Post Reply" style="display: inline;">
+              </span>
             </div>
           </div>
         </form>

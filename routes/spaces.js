@@ -44,6 +44,7 @@ router.get('/:departmentName/reviews', async(request, response) => {
   let department = await Department.query().findOne({name: request.params.departmentName});
   let reviews = await department.$relatedQuery('reviews');
   for (let review of reviews) {
+    review.user = await review.$relatedQuery('user');
     review.course = await review.$relatedQuery('course');
     review.faculty = await review.$relatedQuery('faculty');
   }
