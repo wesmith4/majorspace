@@ -12,7 +12,7 @@
         <div class="col mb-4">
           <div class="card shadow review-card">
             <div class="card-header text-center" style="background-color: rgba(179, 179, 179, 0);">
-              <span><h4 style="display: inline;"><strong>{{course.courseNumber}}</strong>: <em>{{courseTitle}}</em> - {{faculty.name}}, {{semester}}</h4></span>
+              <span><h4 style="display: inline;"><strong>{{course.courseNumber}}</strong>: <em>{{courseTitle}}</em> - {{faculty.name}}{{#if semester}}, {{semester}}{{/if}}</h4></span>
             </div>
             <div class="card-body" style="padding: 4%;">
               <blockquote class="blockquote mb-0">
