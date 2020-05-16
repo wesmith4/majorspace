@@ -6,6 +6,7 @@ A site for [Davidson College](https://davidson.edu) students to interact with me
 - Kendahl Ross ([Email](mailto:keross@davidson.edu), [GitHub](https://github.com/kross00))
 - Lilian Korir ([Email](mailto:likorir@davidson.edu), [GitHub](https://github.com/LilianKorir))
 
+## [Project Page](https://bits.wesmith4.com/project/majorspace) on my website
 
 ## Getting Started
 1. ### Install required modules
