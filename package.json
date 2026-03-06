@@ -7,6 +7,9 @@
     "db:create": "createdb majorspace_development && createdb majorspace_test",
     "db:drop": "dropdb majorspace_development && dropdb majorspace_test",
     "dev": "nodemon ./bin/www",
+    "dev:client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build",
+    "postinstall": "cd client && npm install",
     "lint": "npx eslint ."
   },
   "dependencies": {
