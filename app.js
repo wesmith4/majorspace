@@ -4,13 +4,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-let handlebars = require('express-handlebars');
 let cookieSession = require('cookie-session');
 
-var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user');
-let spacesRouter = require('./routes/spaces');
-
+var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -25,25 +21,13 @@ let Knex = require('knex');
 let dbConfig = require(app.root('knexfile'));
 let knex = Knex(dbConfig[process.env.NODE_ENV]);
 
-
-
 let { Model } = require('objection');
 Model.knex(knex);
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.engine('hbs', handlebars({
-  layoutsDir: __dirname + '/views/layouts',
-  extname: 'hbs',
-  defaultLayout: 'layout'
-}));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Cookie session
 if (process.env.SECRET) {
@@ -58,29 +42,28 @@ let sessionHandler = cookieSession({
 });
 app.use(sessionHandler);
 
-
 let loadUser = require('./loadUser');
 app.use(loadUser);
 
-app.use('/', indexRouter);
-app.use('/spaces', spacesRouter);
-app.use('/user', userRouter);
+// API routes
+app.use('/api', apiRouter);
 
+// Serve static files from React build
+let clientBuildPath = path.join(__dirname, 'client', 'dist');
+app.use(express.static(clientBuildPath));
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+// Also serve legacy public assets (images, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// SPA fallback: serve React index.html for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({ error: err.message });
 });
 
 module.exports = app;
